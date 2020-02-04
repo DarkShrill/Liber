@@ -1,0 +1,45 @@
+body {
+    font-family: "EB Garamond", sans-serif;
+    background: #261447 !important;
+    color: aliceblue !important;
+  }
+  
+  hr {
+    border-color: aliceblue !important;
+  }
+  
+  .navbar {
+    background: #847996 !important;
+  }
+  
+  .header {
+    background-size: cover;
+    text-align: center;
+    padding-top: 50px;
+  }
+  
+  .jumbotron {
+    background: #586f7c !important;
+    margin-top: 150px;
+    animation: myanimation 10s infinite;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .modal {
+    color: black;
+  }
+  .jumbotron:hover {
+    background-color: #847996 !important;
+    animation: myanimation 10s infinite;
+  }
+
+@keyframes myanimation {
+  0% {background-color: red !important;}
+  25%{background-color:yellow !important;}
+  50%{background-color:green !important;}
+  75%{background-color:brown !important;}
+  100% {background-color: red !important;}
+}
