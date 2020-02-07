@@ -24,39 +24,34 @@ class Login {
 
         $id = $stmt->fetchColumn();
         if($id != false) {
-            return generate_token($id);    
+            return $this->generate_token($id);    
         } else {
             return false;
         }
     }
 
     private function generate_token($id) {
-        $good_token = false;
-        $token;
-
-        $query = "SELECT Token FROM tokens WHERE ID_utente = '$id'";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        $good_token = true;
+        $tmp_token = "";
 
         do {
-            $token = md5(uniqid(rand(), true));
+            $tmp_token = md5(uniqid(rand(), true));
 
-            $query = "SELECT Token FROM tokens WHERE Token = '$token'";
+            $query = "SELECT Token FROM tokens WHERE Token = '$tmp_token'";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
             $good_token = $stmt->fetchColumn();
-        } while($good_token == false);
+        } while($good_token !== false);
         
         $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
-        $query = "INSERT INTO tokens ('Token', 'ID_utente', 'Expires') VALUES ('$token', $id, '$time_expire')";
+        $query = "INSERT INTO tokens ('Token', 'ID_utente', 'Scadenza') VALUES ('$tmp_token', $id, '$time_expire')";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        return $token;
+        return $tmp_token;
     }
 
     public function logout() {
@@ -75,7 +70,7 @@ class Login {
     public function refresh() {
         $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
 
-        $query = "UPDATE tokens SET 'Expires' = '$time_expire' WHERE Token = '$this->token'";
+        $query = "UPDATE tokens SET 'Scadenza' = '$time_expire' WHERE Token = '$this->token'";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
