@@ -5,6 +5,7 @@ class Login {
     private $conn;
     public $username;
     public $password;
+    public $token;
 
     public function __construct($database) {
 
@@ -14,15 +15,78 @@ class Login {
 
     public function login() {
 
-        $query = "SELECT ID FROM utenti WHERE Email = '$this->username' AND Password = '$this->password'";
+        $hashed_pwd = hash("sha256", $this->password);
+
+        $query = "SELECT ID FROM utenti WHERE Email = '$this->username' AND Password = '$hashed_pwd'";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        
-        //if()
-        
+
+        $id = $stmt->fetchColumn();
+        if($id != false) {
+            return generate_token($id);    
+        } else {
+            return false;
+        }
     }
 
+    private function generate_token($id) {
+        $good_token = false;
+        $token;
+
+        $query = "SELECT Token FROM tokens WHERE ID_utente = '$id'";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        do {
+            $token = md5(uniqid(rand(), true));
+
+            $query = "SELECT Token FROM tokens WHERE Token = '$token'";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            $good_token = $stmt->fetchColumn();
+        } while($good_token == false);
+        
+        $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
+        $query = "INSERT INTO tokens ('Token', 'ID_utente', 'Expires') VALUES ('$token', $id, '$time_expire')";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $token;
+    }
+
+    public function logout() {
+        $query = "DELETE FROM tokens WHERE Token = '$this->token'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $res = $stmt->rowCount();
+        if($res == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function refresh() {
+        $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
+
+        $query = "UPDATE tokens SET 'Expires' = '$time_expire' WHERE Token = '$this->token'";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $res = $stmt->rowCount();
+        if($res == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>
