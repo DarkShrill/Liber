@@ -61,7 +61,7 @@ export const loginUser = userData => {
       return {
         status: "success",
         accessToken: res.data.Token,
-        user: res.data.User
+        user: res.data.NaMe
       };
     })
     .catch(error => {
@@ -77,11 +77,14 @@ export const fetchUser = userData => {
    */
   const url = `${baseURL}/user`;
   const payload = {
-    email: userData.username,
+    email: userData
   };
 
   return axios.post(url,payload, axiosConfig).then(res => {
-    return { user: res.data.user };
+    console.log("PAYLOAD = " + payload.email);
+    console.log(res);
+    return { user: res.data.name_usr 
+    };
   });
 };
 
@@ -116,19 +119,20 @@ export const fetchBooks = (page, limit) => {
    * @argument (page, limit)
    * @returns API response
    */
-  const url = `${baseURL}/books?page=${page}&limit=${limit}`;
+  const url = `${baseURL}/book`;
   return axios
-    .get(url, axiosConfig)
+    .post(url, axiosConfig)
     .then(res => {
       return {
         status: "success",
         books: res.data.Books,
         totalPages: res.data.totalPages,
-        currentPage: res.data.currentPage
+        author: res.data.currentPage,
+        kind:res.data.kind
       };
     })
     .catch(error => {
-      return { status: "failure", error: error.response.data };
+      return { status: "failure", error: 402/*error.response.data */};
     });
 };
 
@@ -151,3 +155,26 @@ export const borrowingHistory = accessToken => {
     })
     .catch(errorHandler);
 };
+
+
+// export const fetchBooks = () => {
+//   /**
+//    * Fetches all books
+//    * @argument
+//    * @returns API response
+//    */
+//   const url = `${baseURL}/books`;
+//   return axios
+//     .get(url, axiosConfig)
+//     .then(res => {
+//       return {
+//         status: "success",
+//         books: res.data.Books,
+//         totalPages: res.data.totalPages,
+//         currentPage: res.data.currentPage
+//       };
+//     })
+//     .catch(error => {
+//       return { status: "failure", error: error.response.data };
+//     });
+// };

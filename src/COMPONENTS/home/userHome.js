@@ -9,14 +9,14 @@ import UserNav from "../mainLayout/header/userHeader";
 class Index extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //   user: {}
-        // };
+        this.state = {
+          user: {}
+        };
       }
       componentDidMount() {
-        //this.props.getUser();
+        this.props.getUser();
         this.setState(() => ({
-          user: this.props._merda
+          user: this.props.user
         }));
       }
 
@@ -24,15 +24,15 @@ class Index extends Component {
   render() {
     return (
       <React.Fragment>
-        <UserNav />
+        <UserNav 
+          user = {this.props.user }/>
         <div className="header">
           <div className="bg-overlay">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
                   <div className="jumbotron">
-                    <h1 className="display-4">Welcome to Book Reader</h1>
-                    <h1 className="display-4">{String(this.props._merda)}</h1>
+                    <h1 className="display-4">Hi <strong>{String(this.props.user)}</strong> ,Welcome to Book Reader</h1>
                     <p className="lead">
                       A library application that allows you to find and buy
                       your favorite books. We are here to help.

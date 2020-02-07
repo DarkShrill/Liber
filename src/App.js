@@ -9,12 +9,13 @@ import Logout from "./COMPONENTS/logout/logout"
 import Register from "./COMPONENTS/register/register"
 import aboutUs from "./COMPONENTS/about/aboutUs"
 import PrivateRoute from "./UTILS/privateRoutes"
+import Library from "./COMPONENTS/library/library"
 
-import Firebase from "./COMMON/firebase/firebase";
 import {
   loginUser,
   registerUser,
-  fetchUser
+  fetchUser,
+  fetchBooks
 } from "./API/api";
 
 
@@ -33,7 +34,8 @@ class App extends Component {
         registered: false,
         library: [],
         scrolling: false,
-        _merda:{}
+        author:{},
+        kind:{}
       };
   }
 
@@ -71,6 +73,7 @@ class App extends Component {
     loginUser(loginData).then(res => {
       if (res.status === "success") {
         localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("userData", loginData.username);
         // set state is an asynchronous function
         // Pass function to make it deterministic
         this.setState(() => ({
@@ -92,10 +95,11 @@ class App extends Component {
      * Logs user out
      */
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("userData");
     this.setState(() => ({
       loggedIn: false,
       user: {},
-      _merda:{}
+      _merda:null
     }));
   };
 
@@ -104,8 +108,32 @@ class App extends Component {
      * Gets user details
      */
     let accessToken = localStorage.getItem("accessToken");
-    fetchUser(accessToken).then(res => {
-      this.setState(() => ({ user: res.user }));
+    let accessAccount = localStorage.getItem("userData");
+    console.log("ACCESS ACCOUNT == " + accessAccount);
+    fetchUser(accessAccount).then(res => {
+      console.log(res);
+      this.setState({ user: res.user });
+      console.log(String(this.user));
+    });
+  };
+
+  getBooks = () => {
+    /**
+     * Gets all books
+     */
+    if (!this.state.scrolling) this.toggleLoading();
+    const { library } = this.state;
+    fetchBooks().then(res => {
+      console.log(res);
+      res.status === "success"
+        ? this.setState(() => ({
+            library: [...library, ...res.books],
+            loading: false,
+            totalPages: res.totalPages,
+            scrolling: false,
+            error: {}
+          }))
+        : this.setState(() => ({ error: res.error, loading: false }));
     });
   };
 
@@ -164,7 +192,20 @@ class App extends Component {
               loader={<Loader />}
               loading={this.state.loading}
             />   }
-
+            <Route
+              path="/library"
+              render={props => (
+                <Library
+                  {...props}
+                  library={this.state.library}
+                  getBooks={this.getBooks}
+                  loader={<Loader />}
+                  loading={this.state.loading}
+                  scrolling={this.state.scrolling}
+                  loadMore={this.loadMore}
+                />
+              )}
+            />
 
 
 

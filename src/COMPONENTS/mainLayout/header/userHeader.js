@@ -5,6 +5,12 @@ import { Link } from "react-router-dom";
  */
 
 class UserHeader extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top index-nav">
@@ -40,10 +46,18 @@ class UserHeader extends Component {
         <div>
           <ul className="nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/logout">
-                Log Out
-              </Link>
+              <img src="https://image.flaticon.com/icons/svg/566/566985.svg" alt="Img "/>
             </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/personalArea">
+                  Hi {String(this.props.user)}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/logout">
+                  Log Out
+                </Link>
+              </li>
           </ul>
         </div>
       </nav>
