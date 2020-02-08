@@ -61,9 +61,8 @@ class Library extends Component {
                     <tr>
                       <th>Title</th>
                       <th>Author</th>
-                      <th>ISBN</th>
-                      <th>Publisher</th>
-                      <th>Status</th>
+                      <th>Kind</th>
+                      <th>Page</th>
                     </tr>
                   </thead>
                   <tbody>

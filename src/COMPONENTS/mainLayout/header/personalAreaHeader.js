@@ -4,14 +4,10 @@ import { Link } from "react-router-dom";
  * User nav component
  */
 
-class UserHeader extends Component {
+class PersonalUserHeader extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      user: this.props.user
-    };
-    console.log("STO PER PRINTAE")
-    console.log(this.props.user)
+
   }
   render() {
     return (
@@ -50,11 +46,6 @@ class UserHeader extends Component {
             <li className="nav-item">
               <img src="https://image.flaticon.com/icons/svg/566/566985.svg" alt="Img "/>
             </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/personalArea">
-                  Hi {String(this.props.user.name)}
-                </Link>
-              </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/logout">
                   Log Out
@@ -67,4 +58,4 @@ class UserHeader extends Component {
   }
 }
 
-export default UserHeader;
+export default PersonalUserHeader;

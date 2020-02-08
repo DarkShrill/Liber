@@ -10,6 +10,7 @@ import Register from "./COMPONENTS/register/register"
 import aboutUs from "./COMPONENTS/about/aboutUs"
 import PrivateRoute from "./UTILS/privateRoutes"
 import Library from "./COMPONENTS/library/library"
+import PersonalArea from "./COMPONENTS/personalArea/personalArea"
 
 import {
   loginUser,
@@ -35,8 +36,14 @@ class App extends Component {
         library: [],
         scrolling: false,
         author:{},
-        kind:{}
+        kind:{},
+        ownBook:{}
       };
+
+      loginUser.bind(this);
+      registerUser.bind(this);
+      fetchUser.bind(this);
+      fetchBooks.bind(this);
   }
 
   register = regData => {
@@ -79,7 +86,8 @@ class App extends Component {
         this.setState(() => ({
           loggedIn: true,
           loading: false,
-          loginErrors: {}
+          loginErrors: {},
+          user : res.user
         }));
         swal("Logged In Successfully " , { buttons: false, timer: 2500 });
         //swal(String(res.accessToken), { buttons: false, timer: 2500 });
@@ -112,8 +120,12 @@ class App extends Component {
     console.log("ACCESS ACCOUNT == " + accessAccount);
     fetchUser(accessAccount).then(res => {
       console.log(res);
-      this.setState({ user: res.user });
-      console.log(String(this.user));
+      this.setState(() => ({ user: res.user }));
+      //this.setState({ user: res.user.usr });
+      console.log(res.user);
+      console.log(this.state.user);
+    }).catch(res => {
+      console.log("------------    ERRORE");
     });
   };
 
@@ -206,7 +218,16 @@ class App extends Component {
                 />
               )}
             />
-
+            <PrivateRoute
+              path="/personalArea"
+              component={PersonalArea}
+              user={this.state.user}
+              getUser={this.getUser}
+              getOwnBook={this.getOwnBook}
+              ownBook={this.state.ownBook}
+              loader={<Loader />}
+              loading={this.state.loading}
+            />
 
 
 

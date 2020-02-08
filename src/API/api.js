@@ -61,7 +61,7 @@ export const loginUser = userData => {
       return {
         status: "success",
         accessToken: res.data.Token,
-        user: res.data.NaMe
+        user: res.data.User
       };
     })
     .catch(error => {
@@ -83,7 +83,7 @@ export const fetchUser = userData => {
   return axios.post(url,payload, axiosConfig).then(res => {
     console.log("PAYLOAD = " + payload.email);
     console.log(res);
-    return { user: res.data.name_usr 
+    return { user: res.data.usr
     };
   });
 };
