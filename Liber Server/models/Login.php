@@ -31,6 +31,9 @@ class Login {
     }
 
     private function generate_token($id) {
+
+        echo $id;
+        
         $good_token = true;
         $tmp_token = "";
 
@@ -46,7 +49,7 @@ class Login {
         } while($good_token !== false);
         
         $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
-        $query = "INSERT INTO tokens ('Token', 'ID_utente', 'Scadenza') VALUES ('$tmp_token', $id, '$time_expire')";
+        $query = "INSERT INTO tokens (`Token`, `ID_utente`, `Scadenza`) VALUES ('$tmp_token', $id, '$time_expire')";
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -69,14 +72,14 @@ class Login {
 
     public function refresh() {
         $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
-
-        $query = "UPDATE tokens SET 'Scadenza' = '$time_expire' WHERE Token = '$this->token'";
         
+        $query = "UPDATE tokens SET Scadenza = '$time_expire' WHERE Token = '$this->token'";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
         $res = $stmt->rowCount();
-        if($res == 0) {
+        if($res > 0) {
             return true;
         } else {
             return false;
