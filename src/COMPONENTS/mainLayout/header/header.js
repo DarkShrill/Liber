@@ -26,7 +26,7 @@ class IndexNav extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
                 <Link className="nav-link" to="/">
@@ -50,7 +50,7 @@ class IndexNav extends Component {
             <ul className="nav">
               <li className="nav-item">
                 <Link className="nav-link" to="/login">
-                  Log In
+                  Login
                 </Link>
               </li>
               <li className="nav-item">

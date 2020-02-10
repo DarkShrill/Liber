@@ -43,7 +43,7 @@ class Login extends Component {
             </div>
             <div className="col-md-6">
               <div className="login-form">
-                <legend>Login</legend>
+                <legend id="legend-id">Login</legend>
                 <form onSubmit={this.handleSubmit}>
                   {this.props.loginErrors.Message ? (
                     <div className="error">

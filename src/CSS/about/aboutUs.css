@@ -31,15 +31,14 @@ body {
   .modal {
     color: black;
   }
-  .jumbotron:hover {
+   .jumbotron:hover {
     background-color: #847996 !important;
     animation: myanimation 10s infinite;
+  } 
+
+  @media (max-width: 500px) {
+    .jumbotron {
+      margin-top: 0px;
+    }
   }
 
-@keyframes myanimation {
-  0% {background-color: red !important;}
-  25%{background-color:yellow !important;}
-  50%{background-color:green !important;}
-  75%{background-color:brown !important;}
-  100% {background-color: red !important;}
-}

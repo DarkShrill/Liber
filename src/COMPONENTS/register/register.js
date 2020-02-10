@@ -29,8 +29,14 @@ class Register extends Component {
      * Submits form content
      */
     event.preventDefault();
-    this.props.toggleLoading();
-    this.props.register(this.state);
+
+    if (this.state.password !== this.state.confirm_password) {
+      alert("Passwords don't match");
+    } else {
+
+      this.props.toggleLoading();
+      this.props.register(this.state);
+    }
   };
   render() {
     return this.props.registered ? (

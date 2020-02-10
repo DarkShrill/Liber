@@ -11,7 +11,7 @@ import aboutUs from "./COMPONENTS/about/aboutUs"
 import PrivateRoute from "./UTILS/privateRoutes"
 import Library from "./COMPONENTS/library/library"
 import PersonalArea from "./COMPONENTS/personalArea/personalArea"
-
+import UserLibrary from "./COMPONENTS/library/userLibrary"
 import {
   loginUser,
   registerUser,
@@ -89,7 +89,7 @@ class App extends Component {
           loginErrors: {},
           user : res.user
         }));
-        swal("Logged In Successfully " , { buttons: false, timer: 2500 });
+        swal("Logged In Successfully " , { buttons: true, timer: 2500 });
         //swal(String(res.accessToken), { buttons: false, timer: 2500 });
       } else {
         swal("Logged In FAILED", { buttons: false, timer: 2500 });
@@ -221,6 +221,16 @@ class App extends Component {
             <PrivateRoute
               path="/personalArea"
               component={PersonalArea}
+              user={this.state.user}
+              getUser={this.getUser}
+              getOwnBook={this.getOwnBook}
+              ownBook={this.state.ownBook}
+              loader={<Loader />}
+              loading={this.state.loading}
+            />
+            <PrivateRoute
+              path="/userLibrary"
+              component={UserLibrary}
               user={this.state.user}
               getUser={this.getUser}
               getOwnBook={this.getOwnBook}
