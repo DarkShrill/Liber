@@ -11,13 +11,14 @@ const errorHandler = error => {
 };
 
 // base url
- export const baseURL = "http://localhost:2222";
+ //export const baseURL = "http://localhost:2222";
+  export const baseURL = "http://localhost:80/Liber/Liber%20Server";
+//export const baseURL = "localhost/dashboard/"
 const axiosConfig = {
-  headers: {
-    "Content-Type": "application/json",
-    AccessControlAllowOrigin: "*"
-  }
+  "Content-Type": "application/json",
+  AccessControlAllowOrigin: "*",
 };
+
 
 export const registerUser = userData => {
   /**
@@ -50,13 +51,13 @@ export const loginUser = userData => {
    * @argument userData
    * @returns API response
    */
-  const url = `${baseURL}/auth/login`;
+  const url = `${baseURL}/login/login.php`;
   const payload = {
-    email: userData.username,
-    password: userData.password
+    username: "mario.rossi@unicam.it",//userData.username,
+    password: "mariorossi"//userData.password
   };
   return axios
-    .post(url, payload, axiosConfig)
+    .post(url,payload,axiosConfig)
     .then(res => {
       return {
         status: "success",
@@ -65,6 +66,7 @@ export const loginUser = userData => {
       };
     })
     .catch(error => {
+      console.log(error);
       return { status: "failure", error: error.response.data };
     });
 };
