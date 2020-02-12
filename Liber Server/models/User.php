@@ -6,8 +6,9 @@ class User {
     public $surname;
     public $email;
     public $password;
-    public $payment_card;
+    public $payment_card = null;
     public $conn;
+    public $ID;
 
     function __construct($conn) {
 
@@ -15,7 +16,7 @@ class User {
         
     }
 
-    public function registration() {
+    public function insert_user() {
 
         $hashed_pwd = hash("sha256", $this->password);
 
@@ -25,12 +26,62 @@ class User {
         $stmt->execute();
 
         $res = $stmt->rowCount();
+
         if($res > 0) {
             return true;
         } else {
             return false;
         }
 
+
+    }
+
+    public function delete_user() {
+
+        $query = "DELETE FROM utenti WHERE ID = '$this->ID' ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $res = $stmt->rowCount();
+
+        if($res > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function update_user() {
+
+        $hashed_pwd = hash("sha256", $this->password);
+
+        $query = "UPDATE utenti ";
+        $query .= 'SET Nome = "'.$this->name.'", Cognome = "'.$this->surname.'", ';
+        $query .= 'Email = "'.$this->email.'", Password = "'.$hashed_pwd.'" ';
+        $query .= 'WHERE ID = '.$this->ID.'';
+
+        $stmt = $this->conn->prepare($query);
+            
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
+    public function create_credit_card() {
+
+        $query = 'UPDATE utenti SET NumeroCarta = "'.$this->payment_card.'" WHERE ID = '.$this->ID;
+        
+        $stmt = $this->conn->prepare($query);
+            
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 }
