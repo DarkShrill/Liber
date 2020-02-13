@@ -59,9 +59,10 @@ export const loginUser = userData => {
   return axios
     .post(url,payload,axiosConfig)
     .then(res => {
+      console.log(res.data.token);
       return {
         status: "success",
-        accessToken: res.data.Token,
+        accessToken: res.data.token,
         user: res.data.User
       };
     })
