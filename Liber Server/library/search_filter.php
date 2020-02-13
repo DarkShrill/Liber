@@ -13,7 +13,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/Database.php';
 include_once '../config/ActivityController.php';
-include_once '../models/Book.php';
+include_once '../models/Library.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -29,37 +29,48 @@ if(!$data || empty($data->token)) {
 $token_check = new ActivityController($db, false);
 $token_check->token = $data->token;
 
-
 if($token_check->check_token() === false) {
     http_response_code(401);
     echo json_encode(array("outcome" => "bad token"));
     return;
 }
 
-$book = new Book($db);
+if(empty($data->Filtro)) {
+    http_response_code(401);
+    echo json_encode(array("outcome" => "missing filter"));
+    return;
+}
 
-if(!empty($data->ISBN) && !empty($data->Titolo) && !empty($data->Autore) && !empty($data->Trama) && !empty($data->NumeroPagine) && !empty($data->Prezzo)
-    && !empty($data->CasaEditrice) && !empty($data->AnnoPubblicazione) && !empty($data->Genere)) {
-    $book->ISBN = $data->ISBN;
-    $book->Titolo = $data->Titolo;
-    $book->Autore = $data->Autore;
-    $book->Trama = $data->Trama;
-    $book->NumeroPagine = $data->NumeroPagine;
-    $book->Prezzo = $data->Prezzo;
-    $book->CasaEditrice = $data->CasaEditrice;
-    $book->AnnoPubblicazione = $data->AnnoPubblicazione;
-    $book->Genere = $data->Genere;
+if(empty($data->IDUtente)) {
 
-    if($book->insert_book()) {
-        http_response_code(200);
-        echo json_encode(array("outcome" => "succes"));
-    } else {
-        http_response_code(400);
-        echo json_encode(array("outcome" => "error during insertion"));
-    }
-} else {
     http_response_code(400);
-    echo json_encode(array("outcome" => "invalid book data"));
+    echo json_encode(array("outcome" => "missing user ID"));
+    return;
+} 
+
+if(in_array($data->Filtro, array("Autore", "CasaEditrice", "Genere"))) {
+
+    $library = new Library($db);
+    $library->IDUtente = $data->IDUtente;
+    $filter_list = $library->search_filter($data->Filtro);
+
+    if($filter_list) {
+
+        http_response_code(200);
+        echo json_encode($filter_list);
+
+    } else {
+    
+        http_response_code(400);
+        echo json_encode(array("outcome" => "no filter found"));
+
+    }
+
+} else {
+
+    http_response_code(401);
+    echo json_encode(array("outcome" => "filter can only be one of the following: \"Autore\", \"CasaEditrice\", \"Genere\""));
+
 }
 
 ?>

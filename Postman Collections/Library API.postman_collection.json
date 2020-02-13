@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "192aac43-cbd4-4479-b9ea-a26a3aa18a1a",
+		"name": "Library API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Richiesta lista libri area personale",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"IDUtente\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/library/read.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"library",
+						"read.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta filtri",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"IDUtente\": \"1\",\n\"Filtro\": \"Genere\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/library/search_filter.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"library",
+						"search_filter.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta segnalibro",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"IDUtente\": \"1\",\n\"ISBN\": \"9788868365\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/library/read_bookmark.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"library",
+						"read_bookmark.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Posizionamente segnalibro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"IDUtente\": \"1\",\n\"ISBN\": \"9788868365\",\n\"Bookmark\": \"10\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/library/create_bookmark.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"library",
+						"create_bookmark.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta suggeriti",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"IDUtente\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/library/suggested_books.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"library",
+						"suggested_books.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "33d277af-3d14-48ac-9bac-9728b8e6882c",
+		"name": "User API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Inserimento utente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"Nome\": \"Luigi\",\n\"Cognome\": \"Bianchi\",\n\"Email\": \"luigi.bianchi@unicam.it\",\n\"Password\": \"luigibianchi\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/user/create.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"user",
+						"create.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancellazione utente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"123456789\",\n\"ID\":\"3\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/user/delete.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"user",
+						"delete.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modifica utente",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\": \"123456789\",\n\"ID\":\"4\",\n\"Nome\": \"Luigi\",\n\"Cognome\": \"Bianchi\",\n\"Email\": \"luigi.bianchi@unicam.it\",\n\"Password\": \"luigibianchi\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/user/update.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"user",
+						"update.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aggiungi carta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"123456789\",\n\"ID\": \"4\",\n\"NumeroCarta\": \"345678\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/user/add_card.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"user",
+						"add_card.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

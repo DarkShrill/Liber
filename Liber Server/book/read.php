@@ -11,7 +11,6 @@ header("Access-Control-Allow-Headers: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/Database.php';
-include_once '../config/ActivityController.php';
 include_once '../models/Book.php';
 
 $database = new Database();
@@ -19,19 +18,9 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(!$data || empty($data->token)) {
+if(!$data) {
     http_response_code(401);
-    echo json_encode(array("outcome" => "missing token"));
-    return;
-}
-
-$token_check = new ActivityController($db, false);
-$token_check->token = $data->token;
-
-
-if($token_check->check_token() === false) {
-    http_response_code(401);
-    echo json_encode(array("outcome" => "bad token"));
+    echo json_encode(array("outcome" => "missing data"));
     return;
 }
 
@@ -54,6 +43,5 @@ if($book_list) {
     echo json_encode(array("outcome" => "no book found"));
 
 }
-
 
 ?>

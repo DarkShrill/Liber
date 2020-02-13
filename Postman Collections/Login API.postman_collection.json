@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "31d9fe8c-18ff-47d1-b412-d5179c5107fd",
+		"name": "Login API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login corretto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"mario.rossi@unicam.it\",\n\t\"password\": \"mariorossi\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/login/login.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"login",
+						"login.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout corretto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\": \"fa302a572933621c01b9726a0fb37a98\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/login/logout.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"login",
+						"logout.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\": \"1b98098a2d4087ba0fd99f82a03aa561\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/login/refresh.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"login",
+						"refresh.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "384a13aa-b66c-485f-9ebf-5d3cea18d23d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6f2cb3a6-4d73-4402-80e6-45f801b70fb4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

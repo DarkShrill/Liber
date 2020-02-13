@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "79420222-63f8-4b3f-995e-539a014ed39e",
+		"name": "Book API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Inserimento di un libro effettuato con successo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\" : \"123456789\",\n\t\"ISBN\" : \"978-88-6836-562-2\",\n\t\"Titolo\" : \"It\",\n\t\"Autore\" : \"Stephen King\",\n\t\"Trama\" : \"A Derry , una piccola cittadina del Maine, l'autunno si è annunciato con una pioggia torrenziale che sembra non finire mai. Per un bambino come George Denbrough, ben coperto dal suo impermeabile giallo, il più grande divertimento è seguire la barchetta di carta che gli ha costruito il fratello maggiore Bill. Ma le strade sono sdrucciolevoli e George rischia di perdere il suo giocattolo, che infatti si infila in un canale di scolo lungo il marciapiede e sparisce nelle viscere della terra. Cercare di recuperarlo è l'ultimo gesto di George: una creatura spaventosa travestita da clown gli strappa un braccio uccidendolo. A combattere It, il mostro misterioso che prende la forma delle nostre peggiori paure, rimangono Bill e il gruppo di amici con i quali ha fondato il Club dei Perdenti, sette ragazzini capaci di immaginare un mondo senza mostri. Ma It è un nemico implacabile e per sconfiggerlo i ragazzi devono affrontare prove durissime e rischiare la loro stessa vita. E se l'estate successiva, che li ritrova giovani adulti, sembra quella della sconfitta di It, i Perdenti sanno di dover fare una promessa: qualunque cosa succeda, torneranno a Derry per combattere ancora.\",\n\t\"NumeroPagine\" : \"1216\",\n\t\"Prezzo\" : \"18.62\",\n\t\"CasaEditrice\" : \"Sperling & Kupfer\",\n\t\"AnnoPubblicazione\" : \"2019\",\n\t\"Genere\" : \"Horror\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/create.php?",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"create.php"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "1231232323131321",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Inserimento di un libro effettuato con successo"
+			},
+			"response": []
+		},
+		{
+			"name": "Inserimento libro 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\" : \"123456789\",\n\t\"ISBN\" : \"8858828755\",\n\t\"Titolo\" : \"Oceano Mare\",\n\t\"Autore\" : \"Alessandro Baricco\",\n\t\"Trama\" : \"'Oceano Mare' racconta del naufragio di una fregata della marina francese, molto tempo fa, in un oceano. Gli uomini a bordo cercheranno di salvarsi su una zattera. Sul mare si incontreranno le vicende di strani personaggi. Come il professore Bartleboom che cerca di stabilire dove finisce il mare, o il pittore Plasson che dipinge solo con acqua marina, e tanti altri individui in cerca di sé, sospesi sul bordo dell'oceano, col destino segnato dal mare. E sul mare si affaccia anche la locanda Almayer, dove le tante storie confluiscono. Usando il mare come metafora esistenziale, Baricco narra dei suoi surreali personaggi, spaziando in vari registri stilistici.\",\n\t\"NumeroPagine\" : \"224\",\n\t\"Prezzo\" : \"8.07\",\n\t\"CasaEditrice\" : \"Feltrinelli\",\n\t\"AnnoPubblicazione\" : \"2013\",\n\t\"Genere\" : \"Romanzo\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/create.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"create.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta con token errato",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\" : \"1\",\n\t\"ISBN\" : \"978-88-6836-562-2\",\n\t\"Titolo\" : \"It\",\n\t\"Autore\" : \"Stephen King\",\n\t\"Trama\" : \"A Derry , una piccola cittadina del Maine, l'autunno si è annunciato con una pioggia torrenziale che sembra non finire mai. Per un bambino come George Denbrough, ben coperto dal suo impermeabile giallo, il più grande divertimento è seguire la barchetta di carta che gli ha costruito il fratello maggiore Bill. Ma le strade sono sdrucciolevoli e George rischia di perdere il suo giocattolo, che infatti si infila in un canale di scolo lungo il marciapiede e sparisce nelle viscere della terra. Cercare di recuperarlo è l'ultimo gesto di George: una creatura spaventosa travestita da clown gli strappa un braccio uccidendolo. A combattere It, il mostro misterioso che prende la forma delle nostre peggiori paure, rimangono Bill e il gruppo di amici con i quali ha fondato il Club dei Perdenti, sette ragazzini capaci di immaginare un mondo senza mostri. Ma It è un nemico implacabile e per sconfiggerlo i ragazzi devono affrontare prove durissime e rischiare la loro stessa vita. E se l'estate successiva, che li ritrova giovani adulti, sembra quella della sconfitta di It, i Perdenti sanno di dover fare una promessa: qualunque cosa succeda, torneranno a Derry per combattere ancora.\",\n\t\"NumeroPagine\" : \"1216\",\n\t\"Prezzo\" : \"18.62\",\n\t\"CasaEditrice\" : \"Sperling & Kupfer\",\n\t\"AnnoPubblicazione\" : \"2019\",\n\t\"Genere\" : \"Horror\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/create.php?",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"create.php"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "1231232323131321",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Richiesta con token errato"
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta con dati del libro sbagliati",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\" : \"123456789\",\n\t\"ISBN\" : \"978-88-6836-562-2\",\n\t\"Titolo\" : \"It\",\n\t\"Autore\" : \"\",\n\t\"Trama\" : \"A Derry , una piccola cittadina del Maine, l'autunno si è annunciato con una pioggia torrenziale che sembra non finire mai. Per un bambino come George Denbrough, ben coperto dal suo impermeabile giallo, il più grande divertimento è seguire la barchetta di carta che gli ha costruito il fratello maggiore Bill. Ma le strade sono sdrucciolevoli e George rischia di perdere il suo giocattolo, che infatti si infila in un canale di scolo lungo il marciapiede e sparisce nelle viscere della terra. Cercare di recuperarlo è l'ultimo gesto di George: una creatura spaventosa travestita da clown gli strappa un braccio uccidendolo. A combattere It, il mostro misterioso che prende la forma delle nostre peggiori paure, rimangono Bill e il gruppo di amici con i quali ha fondato il Club dei Perdenti, sette ragazzini capaci di immaginare un mondo senza mostri. Ma It è un nemico implacabile e per sconfiggerlo i ragazzi devono affrontare prove durissime e rischiare la loro stessa vita. E se l'estate successiva, che li ritrova giovani adulti, sembra quella della sconfitta di It, i Perdenti sanno di dover fare una promessa: qualunque cosa succeda, torneranno a Derry per combattere ancora.\",\n\t\"NumeroPagine\" : \"1216\",\n\t\"Prezzo\" : \"18.62\",\n\t\"CasaEditrice\" : \"Sperling & Kupfer\",\n\t\"AnnoPubblicazione\" : \"2019\",\n\t\"Genere\" : \"Horror\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/create.php?",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"create.php"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "1231232323131321",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Richiesta con dati del libro sbagliati"
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta lista libri",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\":\"123456789\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/read.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"read.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta libro specifico",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"123456789\",\n\"ISBN\":\"8858828755\"\n}\n"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/read.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"read.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aggiorna libro",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\" : \"123456789\",\n\t\"ISBN\" : \"8858828755\",\n\t\"Titolo\" : \"Oceano Mare\",\n\t\"Autore\" : \"Alessandro Baricco\",\n\t\"Trama\" : \"'Oceano Mare' racconta del naufragio di una fregata della marina francese, molto tempo fa, in un oceano. Gli uomini a bordo cercheranno di salvarsi su una zattera. Sul mare si incontreranno le vicende di strani personaggi. Come il professore Bartleboom che cerca di stabilire dove finisce il mare, o il pittore Plasson che dipinge solo con acqua marina, e tanti altri individui in cerca di sé, sospesi sul bordo dell'oceano, col destino segnato dal mare. E sul mare si affaccia anche la locanda Almayer, dove le tante storie confluiscono. Usando il mare come metafora esistenziale, Baricco narra dei suoi surreali personaggi, spaziando in vari registri stilistici.\",\n\t\"NumeroPagine\" : \"224\",\n\t\"Prezzo\" : \"9.07\",\n\t\"CasaEditrice\" : \"Feltrinelli\",\n\t\"AnnoPubblicazione\" : \"2013\",\n\t\"Genere\" : \"Romanzo\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/update.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"update.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancella libro ",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"123456789\",\n\"ISBN\":\"8858828755\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/delete.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"delete.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Richiesta filtri",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Filtro\": \"Genere\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/book/search_filter.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"book",
+						"search_filter.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

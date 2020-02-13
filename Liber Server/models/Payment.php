@@ -25,7 +25,7 @@ class Payment {
     private function add_to_library() {
 
         $query = "INSERT INTO librerie(`IDUtente`, `ISBNLibro`, `Segnalibro`) VALUES (";
-        $query .= ''.$this->user_ID.',"'.$this->book_ID.'", 0)';
+        $query .= ''.$this->user_ID.',"'.$this->book_ID.'", 1)';
 
         $stmt = $this->conn->prepare($query);
             
