@@ -139,16 +139,16 @@ class Library {
 
         public function get_suggested_books($clause){
 
-            $query = "SELECT Genere, COUNT(Genere) as Frequenza FROM librerie JOIN libri ";
-            $query .= "ON librerie.ISBNLibro = libri.ISBN ";
-            $query .= "WHERE librerie.IDUtente = $this->IDUtente " . ($clause ? " AND librerie.ISBNLibro NOT IN " . $clause : "");
-            $query .= "ORDER BY Frequenza DESC LIMIT 0,3";
+            $query_1 = "SELECT Genere, COUNT(Genere) AS Frequenza FROM librerie JOIN libri ";
+            $query_1 .= "ON librerie.ISBNLibro = libri.ISBN ";
+            $query_1 .= "WHERE librerie.IDUtente = $this->IDUtente " . ($clause ? " AND librerie.ISBNLibro NOT IN " . $clause : "");
+            $query_1 .= "GROUP BY Genere ORDER BY Frequenza DESC LIMIT 0,3";
 
-            $query_1 = "SELECT Genere FROM (" . $query .") as Generi";
+            $query_2 = "SELECT Genere FROM (" . $query_1 .") AS Generi";
 
-            $query_2 = "SELECT * FROM Libri WHERE Genere IN (" . $query_1 . ")";
+            $query_3 = "SELECT * FROM Libri WHERE Genere IN (" . $query_2 . ") ORDER BY Genere";
 
-            echo $query_2;
+            echo $query_3;
 
         }
     }
