@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "eecedce1-9d41-4c60-8a76-c66e3f40f6cb",
+		"name": "Payment API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Gestione pagamento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"123456789\",\n\"IDUtente\": \"1\",\n\"ISBNLibro\": \"978877089125\"\n}"
+				},
+				"url": {
+					"raw": "localhost/Liber/Liber%20Server/payment/pay.php",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Liber",
+						"Liber%20Server",
+						"payment",
+						"pay.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

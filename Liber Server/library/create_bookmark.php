@@ -37,28 +37,27 @@ if($token_check->check_token() === false) {
 
 $library = new Library($db);
 
-if(empty($data->IDUtente)) {
+if(empty($data->IDUtente) || empty($data->ISBN)) {
 
     http_response_code(400);
-    echo json_encode(array("outcome" => "missing user ID"));
+    echo json_encode(array("outcome" => "missing user ID or ISBN"));
     return;
-} 
-
-$library->IDUtente = $data->IDUtente;
-$library->ISBNLibro = empty($data->ISBNLibro) ? false : $data->ISBNLibro;
-
-$book_user_list = $library->get_user_books();
-
-if($book_user_list) {
-
-    http_response_code(200);
-    echo json_encode($book_user_list);
-
-} else {
-    
-    http_response_code(400);
-    echo json_encode(array("outcome" => "no book found"));
-
 }
 
+if(empty($data->Bookmark)) {
+    http_response_code(400);
+    echo json_encode(array("outcome" => "missing bookmark"));
+    return;
+}
+
+$library->IDUtente = $data->IDUtente;
+$library->ISBN = $data->ISBN;
+
+if($library->set_bookmark($data->Bookmark)) {
+    http_response_code(200);
+    echo json_encode(array("outcome" => "success"));
+} else {
+    http_response_code(400);
+    echo json_encode(array("outcome" => "error during bookmark insertion"));
+}
 ?>

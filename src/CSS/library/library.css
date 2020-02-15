@@ -8,7 +8,7 @@ td {
 }
 .search{
     margin-bottom: 15px; 
-    margin-left: 200px;
+    margin-left: 80px;
 }
 
 .filter-autore{
@@ -18,5 +18,8 @@ td {
     margin-left: 10px;
 }
 .filter-genere{
+    margin-left: 15px;
+}
+.reset-filter{
     margin-left: 15px;
 }

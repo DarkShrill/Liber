@@ -105,6 +105,7 @@
         }
 
         public function update_book() {
+
             $query = "UPDATE libri ";
             $query .= 'SET Titolo = "'.$this->Titolo.'", Autore = "'.$this->Autore.'", Trama = "'.$this->Trama.'", NumeroPagine = '.$this->NumeroPagine.', ';
             $query .= 'Prezzo = '.$this->Prezzo.', CasaEditrice = "'.$this->CasaEditrice.'", AnnoPubblicazione = "'.$this->AnnoPubblicazione.'", Genere = "'.$this->Genere.'"';
@@ -119,4 +120,29 @@
             }
         }
 
+        public function search_filter($filter) {
+
+            $query = "SELECT DISTINCT $filter FROM libri ";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0) {
+
+                $books_arr = array();
+
+                while ($row = $stmt->fetchColumn()){
+                    
+                    array_push($books_arr, $row);
+                }
+
+                return $books_arr;
+
+            } else {
+                return null;
+            }
+        }
+
     }
+    
+?>

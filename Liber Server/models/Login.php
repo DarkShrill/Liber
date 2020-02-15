@@ -31,7 +31,8 @@ class Login {
                 "ID" => $ID,
                 "Nome" => $Nome,
                 "Cognome" => $Cognome,
-                "Email" => $Email
+                "Email" => $Email,
+                "NumeroCarta" => $NumeroCarta
             );
             $result_arr["account"] = $item;
             $result_arr["token"] = $this->generate_token($ID);

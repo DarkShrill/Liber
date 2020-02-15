@@ -79,11 +79,12 @@ export const updateUser = data => {
     Nome:data.user.Nome,
     Cognome:data.user.Cognome,
     Email:data.user.Email,
-    Password:data.user.Password
+    Password:data.password,
   };
-  console.log(data);
+  console.log("UPLOAD USER : ");
+  console.log(payload);
   return axios.post(url,payload, axiosConfig).then(res => {
-    return { status : "success", user: res.data.usr
+    return { status : "success"
     };
     }).catch(error => {
       return { status : "error"
@@ -117,16 +118,12 @@ export const logoutUser = accessToken => {
    * @argument accessToken
    * @returns API response
    */
-  const url = `${baseURL}/auth/logout`;
-  const axiosConfigAuth = {
-    headers: {
-      "Content-Type": "application/json",
-      AccessControlAllowOrigin: "*",
-      Authorization: "Bearer " + accessToken
-    }
+  const url = `${baseURL}/login/logout.php`;
+  const payload = {
+    token : accessToken,
   };
   return axios
-    .post(url, axiosConfigAuth)
+    .post(url,payload,axiosConfig)
     .then(res => {
       console.log("========>", res);
       return { status: true, loggedOut: true };
@@ -136,7 +133,29 @@ export const logoutUser = accessToken => {
     });
 };
 
-export const fetchBooks = (page, limit) => {
+export const fetchBuy = (data) => {
+  const url = `${baseURL}/payment/pay.php`;
+  const payload = {
+    token:data.token,
+    IDUtente: data.IDUtente,
+    ISBNLibro: data.ISBNLibro,
+  }
+  console.log("BUY");
+  console.log(payload);
+  return axios
+    .post(url, payload ,axiosConfig)
+    .then(res => {
+      return {
+        status: "success",
+      };
+    })
+    .catch(error => {
+      console.log("ERROR " + error);
+      return { status: "failure", error: 43/*error.response.data */};
+    });
+}
+
+export const fetchBooks = () => {
   /**
    * Fetches all books
    * @argument (page, limit)
@@ -159,6 +178,65 @@ export const fetchBooks = (page, limit) => {
     });
 };
 
+export const fetchFilterGenere = () => {
+  const url = `${baseURL}/book/search_filter.php`;
+  const payload = {
+    Filtro: "Genere",
+  };
+  return axios
+    .post(url,payload, axiosConfig)
+    .then(res => {
+      console.log("FILTER GENERE");
+      console.log(res);
+      return {
+        status: "success",
+        filter: res.data
+      };
+    })
+    .catch(error => {
+      console.log("ERROR " + error);
+      return { status: "failure", error: 402/*error.response.data */};
+    });
+}
+
+export const fetchFilterAutore = () => {
+  const url = `${baseURL}/book/search_filter.php`;
+  const payload = {
+    Filtro: "Autore",
+  };
+  return axios
+    .post(url,payload, axiosConfig)
+    .then(res => {
+      return {
+        status: "success",
+        filter: res.data
+      };
+    })
+    .catch(error => {
+      console.log("ERROR " + error);
+      return { status: "failure", error: 402/*error.response.data */};
+    });
+}
+
+export const fetchFilterCasaEditrice= () => {
+  const url = `${baseURL}/book/search_filter.php`;
+  const payload = {
+    Filtro: "CasaEditrice",
+  };
+  return axios
+    .post(url,payload, axiosConfig)
+    .then(res => {
+      return {
+        status: "success",
+        filter: res.data
+      };
+    })
+    .catch(error => {
+      console.log("ERROR " + error);
+      return { status: "failure", error: 402/*error.response.data */};
+    });
+}
+
 export const borrowingHistory = accessToken => {
   /**
    * Gets user's borrowing history
@@ -179,10 +257,30 @@ export const borrowingHistory = accessToken => {
     .catch(errorHandler);
 };
 
-export const getOwnBook = userData =>{
+export const fetchOwnBook = userData =>{
 
-    const url = `${baseURL}/users/books`;
-    //da fare
+    const url = `${baseURL}/library/read.php`;
+    
+    const payload = {
+      token: userData.token,
+      IDUtente:userData.ID,
+    };
+    console.log("OWN BOOK payload");
+    console.log(payload);
+    return axios
+      .post(url,payload, axiosConfig)
+      .then(res => {
+        console.log("OWN BOOK ");
+        console.log(res);
+        return {
+          status: "success",
+          ownBook: res.data.libri
+        };
+      })
+      .catch(error => {
+        console.log("ERROR " + error);
+        return { status: "failure", error: 402/*error.response.data */};
+      });
 
 }
 

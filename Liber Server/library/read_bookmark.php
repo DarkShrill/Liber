@@ -13,7 +13,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/Database.php';
 include_once '../config/ActivityController.php';
-include_once '../models/Book.php';
+include_once '../models/Library.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -36,30 +36,31 @@ if($token_check->check_token() === false) {
     return;
 }
 
-$book = new Book($db);
+$library = new Library($db);
 
-if(!empty($data->ISBN) && !empty($data->Titolo) && !empty($data->Autore) && !empty($data->Trama) && !empty($data->NumeroPagine) && !empty($data->Prezzo)
-    && !empty($data->CasaEditrice) && !empty($data->AnnoPubblicazione) && !empty($data->Genere)) {
-    $book->ISBN = $data->ISBN;
-    $book->Titolo = $data->Titolo;
-    $book->Autore = $data->Autore;
-    $book->Trama = $data->Trama;
-    $book->NumeroPagine = $data->NumeroPagine;
-    $book->Prezzo = $data->Prezzo;
-    $book->CasaEditrice = $data->CasaEditrice;
-    $book->AnnoPubblicazione = $data->AnnoPubblicazione;
-    $book->Genere = $data->Genere;
+if(empty($data->IDUtente) || empty($data->ISBN)) {
 
-    if($book->insert_book()) {
-        http_response_code(200);
-        echo json_encode(array("outcome" => "succes"));
-    } else {
-        http_response_code(400);
-        echo json_encode(array("outcome" => "error during insertion"));
-    }
-} else {
     http_response_code(400);
-    echo json_encode(array("outcome" => "invalid book data"));
+    echo json_encode(array("outcome" => "missing user ID or ISBN"));
+    return;
+} 
+
+$library->IDUtente = $data->IDUtente;
+$library->ISBN = $data->ISBN;
+
+$bookmark = $library->get_bookmark();
+
+if($bookmark) {
+
+    http_response_code(200);
+    echo json_encode($bookmark);
+
+} else {
+    
+    http_response_code(400);
+    echo json_encode(array("outcome" => "no bookmark found"));
+
 }
+
 
 ?>
