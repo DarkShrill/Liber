@@ -59,7 +59,7 @@ class UserHeader extends Component {
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/personalArea">
-                  Hi {String(this.props.user.name)}
+                  Hi {String(this.props.user.Nome)}
                 </Link>
               </li>
               <li className="nav-item">

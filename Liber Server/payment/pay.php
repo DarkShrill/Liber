@@ -13,7 +13,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/Database.php';
 include_once '../config/ActivityController.php';
-include_once '../models/User.php';
+include_once '../models/Payment.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -26,27 +26,25 @@ if(!$data) {
     return;
 }
 
-$user = new User($db);
+$payment = new Payment($db);
 
-if(!empty($data->Nome) && !empty($data->Cognome) && !empty($data->Email) && !empty($data->Password)) {
+if(!empty($data->IDUtente) && !empty($data->ISBNLibro)) {
 
-    $user->name = $data->Nome;
-    $user->surname = $data->Cognome;
-    $user->email = $data->Email;
-    $user->password = $data->Password;
+    $payment->user_ID = $data->IDUtente;
+    $payment->book_ID = $data->ISBNLibro;
 
-    if($user->insert_user()) {
+    if($payment->pay()) {
         http_response_code(200);
         echo json_encode(array("outcome" => "succes"));
     } else {
         http_response_code(400);
-        echo json_encode(array("outcome" => "error during insertion"));
+        echo json_encode(array("outcome" => "error during payment"));
     }
 
 } else {
 
     http_response_code(400);
-    echo json_encode(array("outcome" => "invalid user data"));
+    echo json_encode(array("outcome" => "invalid payment data"));
 }
 
 ?>

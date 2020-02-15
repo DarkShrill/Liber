@@ -10,7 +10,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      Email: "",
       password: ""
     };
   }
@@ -53,22 +53,22 @@ class Login extends Component {
                     ""
                   )}
                   <div className="form-group">
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="Email">Email</label>
                     <br />
                     <span className="error">
-                      {this.props.loginErrors.username
-                        ? this.props.loginErrors.username
+                      {this.props.loginErrors.Email
+                        ? this.props.loginErrors.Email
                         : ""}
                     </span>
                     <input
                       type="text"
                       className="form-control"
-                      id="username"
+                      id="Email"
                       aria-describedby="emailHelp"
-                      placeholder="Enter username"
+                      placeholder="Enter email"
                       onChange={this.handleChange}
-                      name="username"
-                      value={this.state.username}
+                      name="Email"
+                      value={this.state.Email}
                       required={true}
                     />
                   </div>

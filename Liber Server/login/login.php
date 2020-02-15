@@ -31,12 +31,11 @@ header("Content-Type: application/json; charset=UTF-8");
     $login->username = $data->username;
     $login->password = $data->password;
 
-    $token = $login->login();
+    $res = $login->login();
 
-    if($token) {
+    if($res) {
         http_response_code(200);
-        ob_end_clean();
-        echo json_encode(array("token" => $token));
+        echo json_encode($res);
     } else {
         http_response_code(400);
         echo json_encode(array("outcome" => "wrong credentials"));

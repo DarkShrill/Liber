@@ -17,22 +17,32 @@ class Login {
 
         $hashed_pwd = hash("sha256", $this->password);
 
-        $query = "SELECT ID FROM utenti WHERE Email = '$this->username' AND Password = '$hashed_pwd'";
+        $query = "SELECT * FROM utenti WHERE Email = '$this->username' AND Password = '$hashed_pwd'";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-        $id = $stmt->fetchColumn();
-        if($id != false) {
-            return $this->generate_token($id);    
+        if($stmt->rowCount() > 0) {
+            $result_arr = array();
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            extract($row);
+            $item = array(
+                "ID" => $ID,
+                "Nome" => $Nome,
+                "Cognome" => $Cognome,
+                "Email" => $Email
+            );
+            $result_arr["account"] = $item;
+            $result_arr["token"] = $this->generate_token($ID);
+
+            return $result_arr;
         } else {
             return false;
         }
     }
 
     private function generate_token($id) {
-
-        echo $id;
         
         $good_token = true;
         $tmp_token = "";
@@ -46,6 +56,7 @@ class Login {
             $stmt->execute();
 
             $good_token = $stmt->fetchColumn();
+            
         } while($good_token !== false);
         
         $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));

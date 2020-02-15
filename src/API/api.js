@@ -30,8 +30,7 @@ export const registerUser = userData => {
   const payload = {
     first_name: userData.first_name,
     last_name: userData.last_name,
-    email: userData.email,
-    username: userData.username,
+    email: userData.Email,
     password: userData.password,
     confirm_password: userData.confirm_password
   };
@@ -53,8 +52,8 @@ export const loginUser = userData => {
    */
   const url = `${baseURL}/login/login.php`;
   const payload = {
-    username: "mario.rossi@unicam.it",//userData.username,
-    password: "mariorossi"//userData.password
+    username: userData.Email,
+    password: userData.password
   };
   return axios
     .post(url,payload,axiosConfig)
@@ -63,7 +62,7 @@ export const loginUser = userData => {
       return {
         status: "success",
         accessToken: res.data.token,
-        user: res.data.User
+        user: res.data.account
       };
     })
     .catch(error => {
@@ -71,6 +70,27 @@ export const loginUser = userData => {
       return { status: "failure", error: error.response.data };
     });
 };
+
+export const updateUser = data => {
+  const url = `${baseURL}/user/update.php`;
+  const payload = {
+    token: data.token,
+    ID: data.user.ID,
+    Nome:data.user.Nome,
+    Cognome:data.user.Cognome,
+    Email:data.user.Email,
+    Password:data.user.Password
+  };
+  console.log(data);
+  return axios.post(url,payload, axiosConfig).then(res => {
+    return { status : "success", user: res.data.usr
+    };
+    }).catch(error => {
+      return { status : "error"
+    };
+    }
+    );
+}
 
 export const fetchUser = userData => {
   /**
@@ -122,19 +142,19 @@ export const fetchBooks = (page, limit) => {
    * @argument (page, limit)
    * @returns API response
    */
-  const url = `${baseURL}/book`;
+  const url = `${baseURL}/book/read.php`;
   return axios
     .post(url, axiosConfig)
     .then(res => {
+      console.log("BOOK");
+      console.log(res);
       return {
         status: "success",
-        books: res.data.Books,
-        totalPages: res.data.totalPages,
-        author: res.data.currentPage,
-        kind:res.data.kind
+        books: res.data.libri
       };
     })
     .catch(error => {
+      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 };
@@ -158,6 +178,13 @@ export const borrowingHistory = accessToken => {
     })
     .catch(errorHandler);
 };
+
+export const getOwnBook = userData =>{
+
+    const url = `${baseURL}/users/books`;
+    //da fare
+
+}
 
 
 // export const fetchBooks = () => {

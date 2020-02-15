@@ -28,14 +28,12 @@ if(!$data) {
 
 $user = new User($db);
 
-if(!empty($data->Nome) && !empty($data->Cognome) && !empty($data->Email) && !empty($data->Password)) {
+if(!empty($data->ID) && !empty($data->NumeroCarta)) {
 
-    $user->name = $data->Nome;
-    $user->surname = $data->Cognome;
-    $user->email = $data->Email;
-    $user->password = $data->Password;
+    $user->ID = $data->ID;
+    $user->payment_card = $data->NumeroCarta;
 
-    if($user->insert_user()) {
+    if($user->create_credit_card()) {
         http_response_code(200);
         echo json_encode(array("outcome" => "succes"));
     } else {
@@ -48,5 +46,3 @@ if(!empty($data->Nome) && !empty($data->Cognome) && !empty($data->Email) && !emp
     http_response_code(400);
     echo json_encode(array("outcome" => "invalid user data"));
 }
-
-?>

@@ -19,11 +19,11 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(!$data || empty($data->token)) {
-    http_response_code(401);
-    echo json_encode(array("outcome" => "missing token"));
-    return;
-}
+// if(!$data || empty($data->token)) {
+//     http_response_code(401);
+//     echo json_encode(array("outcome" => "missing token"));
+//     return;
+// }
 
 $token_check = new ActivityController($db, false);
 $token_check->token = $data->token;

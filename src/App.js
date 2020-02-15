@@ -16,7 +16,9 @@ import {
   loginUser,
   registerUser,
   fetchUser,
-  fetchBooks
+  fetchBooks,
+  getOwnBook,
+  updateUser
 } from "./API/api";
 
 
@@ -37,13 +39,34 @@ class App extends Component {
         scrolling: false,
         author:{},
         kind:{},
-        ownBook:{}
+        token:{},
+        ownBook:{},
+        filterGenere : [],
+        filterAutore : [],
+        filterCasaEditrice : []
       };
 
       loginUser.bind(this);
       registerUser.bind(this);
       fetchUser.bind(this);
       fetchBooks.bind(this);
+      getOwnBook.bind(this);
+      updateUser.bind(this);
+  }
+
+  sendUpdateProfile = () => {
+    updateUser(this.state).then(res => {
+      this.setState(() => ({
+        registered: true,
+        regErrors: {},
+        loading: false,
+        user:res.user
+      }));
+      swal("Update Data Successfully",{timer: 1500});
+    }).catch(error => {
+      swal("Update Data  fail",{timer: 2500});
+      this.setState(() => ({ regErrors: error.error, loading: false }));
+    });
   }
 
   register = regData => {
@@ -80,14 +103,15 @@ class App extends Component {
     loginUser(loginData).then(res => {
       if (res.status === "success") {
         localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("userData", loginData.username);
+        localStorage.setItem("userData", loginData.Email);
         // set state is an asynchronous function
         // Pass function to make it deterministic
         this.setState(() => ({
           loggedIn: true,
           loading: false,
           loginErrors: {},
-          user : res.user
+          user : res.user,
+          token:res.token
         }));
         swal("Logged In Successfully " , { buttons: true, timer: 2500 });
         //swal(String(res.accessToken), { buttons: false, timer: 2500 });
@@ -111,23 +135,23 @@ class App extends Component {
     }));
   };
 
-  getUser = () => {
-    /**
-     * Gets user details
-     */
-    let accessToken = localStorage.getItem("accessToken");
-    let accessAccount = localStorage.getItem("userData");
-    console.log("ACCESS ACCOUNT == " + accessAccount);
-    fetchUser(accessAccount).then(res => {
-      console.log(res);
-      this.setState(() => ({ user: res.user }));
-      //this.setState({ user: res.user.usr });
-      console.log(res.user);
-      console.log(this.state.user);
-    }).catch(res => {
-      console.log("------------    ERRORE");
-    });
-  };
+  // getUser = () => {
+  //   /**
+  //    * Gets user details
+  //    */
+  //   let accessToken = localStorage.getItem("accessToken");
+  //   let accessAccount = localStorage.getItem("userData");
+  //   console.log("ACCESS ACCOUNT == " + accessAccount);
+  //   fetchUser(accessAccount).then(res => {
+  //     console.log(res);
+  //     this.setState(() => ({ user: res.user }));
+  //     //this.setState({ user: res.user.usr });
+  //     console.log(res.user);
+  //     console.log(this.state.user);
+  //   }).catch(res => {
+  //     console.log("------------    ERRORE");
+  //   });
+  // };
 
   getBooks = () => {
     /**
@@ -139,15 +163,18 @@ class App extends Component {
       console.log(res);
       res.status === "success"
         ? this.setState(() => ({
-            library: [...library, ...res.books],
+            library: [...res.books],
             loading: false,
-            totalPages: res.totalPages,
             scrolling: false,
             error: {}
           }))
         : this.setState(() => ({ error: res.error, loading: false }));
     });
   };
+
+  initFilter = () => {
+
+  }
 
   
   render() {
@@ -215,6 +242,9 @@ class App extends Component {
                   loading={this.state.loading}
                   scrolling={this.state.scrolling}
                   loadMore={this.loadMore}
+                  filterGenere = {this.state.filterGenere}
+                  filterAutore = {this.state.filterAutore}
+                  filterCasaEditrice = {this.state.filterCasaEditrice}
                 />
               )}
             />
@@ -227,6 +257,7 @@ class App extends Component {
               ownBook={this.state.ownBook}
               loader={<Loader />}
               loading={this.state.loading}
+              sendUpdateProfile={this.sendUpdateProfile}
             />
             <PrivateRoute
               path="/userLibrary"

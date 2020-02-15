@@ -22,9 +22,11 @@ class PersonalArea extends Component {
         };
         console.log("UTENTE PERSONAL AREA: ");
         console.log(this.props.user);
+
+        this.modificaProfiloHandler.bind(this);
       }
       componentDidMount() {
-        this.props.getUser();
+        // this.props.getUser();
         //this.props.getOwnBook();
         console.log("PERSONAL AREA");
         this.setState(() => ({
@@ -33,6 +35,26 @@ class PersonalArea extends Component {
         }));
       }
 
+      modificaProfiloHandler(){
+          //this.props.sendUpdateProfile();
+      }
+
+      changePasswordHandler(){
+
+      }
+
+      handleFirstNameChange = event => {
+        console.log(event);
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+      }
+
+      handleLastNameChange = event => {
+        this.setState({
+          [event.target.user.Cognome]: event.target.value
+        });
+      }
 
       render() {
         return (
@@ -52,23 +74,25 @@ class PersonalArea extends Component {
                 <div className="col-md-4">
                   <Form>
                     <FormGroup>
-                      <Label for="exampleFirstName">First Name</Label>
+                      <Label for="FirstName">First Name</Label>
                       <Input
                         type="text"
                         name="firstName"
-                        id="examplefirstName"
+                        id="firstName"
                         placeholder="First Name"
-                        value={this.props.user.name}
+                        value={this.state.user.Nome}
+                        onChange={this.handleFirstNameChange}
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="exampleFirstName">Last Name</Label>
+                      <Label for="FirstName">Last Name</Label>
                       <Input
                         type="text"
                         name="lastName"
-                        id="examplelastName"
+                        id="lastName"
                         placeholder="Last Name"
-                        value={"NON C'E"}
+                        value={this.props.user.Cognome}
+                        onChange={this.handleLastNameChange}
                       />
                     </FormGroup>
                   </Form>
@@ -76,33 +100,23 @@ class PersonalArea extends Component {
                 <div className="col-md-4">
                   <Form>
                     <FormGroup>
-                      <Label for="exampleEmail">Username</Label>
-                      <Input
-                        type="text"
-                        name="username"
-                        id="exampleUsername"
-                        placeholder="Username"
-                        value={this.props.user.email}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="exampleEmail">Email</Label>
+                      <Label for="Email">Email</Label>
                       <Input
                         type="email"
                         name="email"
-                        id="exampleEmail"
+                        id="Email"
                         placeholder="Email"
-                        value={this.props.user.email}
+                        value={this.props.user.Email}
                         readOnly
                       />
                     </FormGroup>
                   </Form>
-                  <Button outline color="primary">
-                    Edit Profile
-                  </Button>{" "}
-                  <Button outline color="primary">
-                    Reset Password
-                  </Button>{" "}
+                  <button type="submit" className="btn btn-primary" onClick={this.props.sendUpdateProfile}>
+                        Modifica Profilo
+                  </button>
+                  <button type="submit" className="btn btn-primary" onClick={this.changePasswordHandler}>
+                        Reset Password
+                  </button>
                 </div>
               </div>
               <div className="row">
