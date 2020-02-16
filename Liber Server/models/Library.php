@@ -146,9 +146,113 @@ class Library {
 
             $query_2 = "SELECT Genere FROM (" . $query_1 .") AS Generi";
 
-            $query_3 = "SELECT * FROM Libri WHERE Genere IN (" . $query_2 . ") ORDER BY Genere";
+            $stmt = $this->conn->prepare($query_2);
+            $stmt->execute();
 
-            echo $query_3;
+            $types_list = "";
+            
+            for($i=0; $i < 3; $i++) {
+
+                $row = $stmt->fetchColumn();
+                $types_list .= "'$row'";
+
+                if($i != 2) {
+
+                    $types_list .= ",";
+
+                }
+            }
+
+            $query_3 = "SELECT * FROM Libri WHERE Genere IN (" . $types_list . ") ";
+            $query_3 .= "ORDER BY FIELD(Genere, " . $types_list. ")";
+
+            $stmt = $this->conn->prepare($query_3);
+            $stmt->execute();
+
+            $type_1 = array();
+            $type_2 = array();
+            $type_3 = array();
+            $current_type = 1;
+            $previous_type = str_replace("'", "", explode(",", $types_list)[0]); 
+
+            if($stmt->rowCount() > 0) {
+            
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $item = array(
+                        "ISBN" => $ISBN,
+                        "Titolo" => $Titolo,
+                        "Autore" => $Autore,
+                        "Trama" => $Trama,
+                        "NumeroPagine" => $NumeroPagine,
+                        "Prezzo" => $Prezzo,
+                        "CasaEditrice" => $CasaEditrice,
+                        "AnnoPubblicazione" => $AnnoPubblicazione,
+                        "Genere" => $Genere
+                    );
+                    
+                    if (strcmp($Genere,$previous_type) != 0) {
+
+                        $current_type++;
+
+                        if ($current_type == 1) {
+
+                            array_push($type_1, $item);
+
+                        } else if ($current_type == 2) {
+
+                            array_push($type_2, $item);
+
+                        } else {
+
+                            array_push($type_3, $item);
+
+                        }
+                        
+                        $previous_type = $Genere;
+
+                    } else {
+
+                        if ($current_type == 1) {
+
+                            array_push($type_1, $item);
+
+                        } else if ($current_type == 2) {
+
+                            array_push($type_2, $item);
+
+                        } else {
+
+                            array_push($type_3, $item);
+
+                        }
+
+                    }
+
+                }
+
+            } else {
+                return false;
+            }
+
+            $suggested_books_list = array();
+
+            for ($i=0; $i<5; $i++) {
+
+                if ($i<2) {
+
+                    array_push($suggested_books_list, array_splice($type_3, rand(0, count($type_3)-1), 1)[0]);
+                }
+
+                if ($i<3) {
+
+                    array_push($suggested_books_list, array_splice($type_2, rand(0, count($type_2)-1), 1)[0]);                    
+                }
+
+                array_push($suggested_books_list, array_splice($type_1, rand(0, count($type_1)-1), 1)[0]);                 
+            }
+
+            return $suggested_books_list;
 
         }
     }

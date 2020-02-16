@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 14, 2020 alle 17:48
+-- Creato il: Feb 16, 2020 alle 23:51
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.1
 
@@ -49,7 +49,13 @@ INSERT INTO `librerie` (`ID`, `IDUtente`, `ISBNLibro`, `Segnalibro`) VALUES
 (9, 1, '9780671626884', 1),
 (10, 1, '0062276468', 1),
 (11, 1, '9781567673067', 1),
-(12, 1, '9781617078545', 1);
+(12, 1, '9781617078545', 1),
+(13, 4, '978877089125', 1),
+(14, 4, '978227722637', 1),
+(15, 4, '9781519497192', 1),
+(16, 4, '9788498890372', 1),
+(17, 4, '9788804548959', 1),
+(18, 4, '0062276468', 1);
 
 -- --------------------------------------------------------
 
@@ -74,7 +80,6 @@ CREATE TABLE `libri` (
 --
 
 INSERT INTO `libri` (`ISBN`, `Titolo`, `Autore`, `Trama`, `NumeroPagine`, `Prezzo`, `CasaEditrice`, `AnnoPubblicazione`, `Genere`) VALUES
-(' 978227722637', 'Rinascimento privato ', 'Maria Bellonci', 'In queste pagine si racconta la vicenda di Isabella d\'Este, divenuta marchesa di Mantova dopo il matrimonio con Francesco Gonzaga; non di una semplice per quanto raffinata biografia si tratta, però, quanto di un vero e proprio romanzo: sia per la presenza di alcuni personaggi totalmente inventati - come Robert de la Pole, corrispondente del re d\'inghilterra e innamorato platonico di Isabella -, sia soprattutto per la qualità della scrittura, che sembra avvolgere in una sorta di abbagliante pulviscolo ogni figura e ogni fatto storico. Protagonista assoluta è lei, Isabella, che ormai alla soglia dei sessant\'anni rievoca la propria vita da quando, sposa sedicenne, giunse a Mantova e in un periodo tra i più tumultuosi e fulgidi della nostra storia, a cavallo tra Quattro e Cinquecento, resse le fila del piccolo stato costruendo attorno a sé una corte di ineguagliato splendore.', 488, 7.99, 'Mondadori', '2016', 'Storico'),
 (' 978870063162', 'Harry Potter e la pietra filosofale ', 'J. K. Rowling', 'Il primo capitolo di uno dei più grandi fenomeni letterari internazionali, il libro che ha fatto leggere milioni di ragazzi e ha unito genitori e figli nella scoperta di un universo fantastico che è già parte dell’immaginario collettivo.\r\n', 300, 6.9, 'Salani', '2018', 'Fantasy'),
 (' 978999403014', 'Harry Potter e il prigioniero di Azkaban', 'J. K. Rowling', 'Una terribile minaccia incombe sulla Scuola di Magia e Stregoneria di Hogwarts. Sirius Black, il famigerato assassino, è evaso dalla prigione di Azkaban. È in caccia e la sua preda è proprio a Hogwarts, dove Harry e i suoi amici stanno per cominciare il loro terzo anno. Nonostante la sorveglianza dei Dissennatori la scuola non è più un luogo sicuro, perché al suo interno si nasconde, un traditore... ', 392, 9.99, 'Salani', '2014', 'Fantasy'),
 ('0062276468', 'Il leone d’oro', 'Wilbur Smith,', 'Africa orientale, seconda metà del diciassettesimo secolo. Hal Courteney incarna la quintessenza di una vita vissuta pericolosamente: ha per moglie una nobile guerriera etiope che combatte al suo fianco, ha da parte un cospicuo tesoro e ha un ancor più cospicuo numero di nemici. Hal è convinto di aver seppellito per sempre il peggiore di questi, l\'Avvoltoio, il responsabile dell\'ingiusta condanna di suo padre. Ma l\'uomo è invece sopravvissuto e, benché sfigurato e mutilato, è più combattivo che mai: l\'unico scopo della sua vita ormai è uccidere Hal e la moglie.', 493, 4.25, 'TEA', '2019', 'Avventura'),
@@ -107,6 +112,7 @@ INSERT INTO `libri` (`ISBN`, `Titolo`, `Autore`, `Trama`, `NumeroPagine`, `Prezz
 ('9781976530739', 'Moby Dick', 'Herman Melville', 'Un uomo e un mostruoso cetaceo si fronteggiano: è il conflitto più aspro, accanito e solitario mai immaginato, è la storia di ogni anima che si spinga a guardare oltre l\'abisso. Moby Dick è un gigantesco capodoglio, candida fonte di orrore e meraviglia; Achab è un capitano che, ossessionato da follia vendicatrice, lo insegue fino all\'ultimo respiro; Ismaele, un marinaio dall\'oscuro passato imbarcato sulla baleniera Pequod, è il narratore e, forse, l\'eroe della tragedia. Sullo sfondo, il ribollire sordo e terribile dell\'oceano, il vociare cosmopolita dell\'equipaggio, le descrizioni anatomiche delle balene e i puntuali resoconti di caccia. Così, pagina dopo pagina, i personaggi del dramma diventano i protagonisti di una nuova epica, con il fascino ambiguo e controverso di un destino contemporaneo. Con un saggio di Harold Bloom.', 703, 7.56, 'BUR Biblioteca Univ. Rizzoli', '2015', 'Avventura'),
 ('9781977841438', 'Frankenstein', 'Mary Shelley', 'Nel 1816 Lord Byron, durante una sera tempestosa nella sua villa a Ginevra, propone ai suoi ospiti - Mary e Percy Shelley, e William Polidori - di scrivere, per gioco, cun racconto dell\'orrore. Ricollegandosi al mito di Prometeo, Mary scriverà Frankenstein. Una storia che è un groviglio etico, un ragionamento profondo sull\'origine della vita: l\'angosciante storia di uno scienziato che conduce macabri esperimenti nel tentativo di restituire la vita ai cadaveri. Una favola terribile capace di imporsi con la forza delle immagini e la sua autonomia di mito universale. Uno sconvolgente racconto dell\'orrore in cui il mostro è più umano del suo creatore.', 250, 8.43, 'Einaudi', '2016', 'Horror'),
 ('9782207600504', 'Danza macabra', 'Dan Simmons', 'ono i vampiri della mente, creature dotate della capacità psichica di penetrare nella mente degli altri e di usarli: possono leggerne il pensiero, soggiogarne la volontà, assorbirne le sensazioni, nutrirsi delle loro emozioni, costringerli a commettere atti di violenza folle. Ogni anno, tre di questi vampiri - Melanie, Willi e Nina - si incontrano per discutere l\'andamento del loro gioco, quasi una gara, di possessione e sterminio. Ma nel corso dell\'ultima riunione accade qualcosa di nuovo e i tre vengono proiettati in un conflitto dal cui esito dipende il futuro dell\'intero pianeta. Alcuni normali esseri umani cercano di combattere i vampiri: Saul Laski, psicologo, reduce da un campo di concentramento nazista; Natalie Preston, figlia di un uomo che ha fatalmente incrociato la strada di Melanie; lo sceriffo Bobby Jo Gentry, coinvolto casualmente nella lotta mentre indaga su una serie di omicidi. La caccia è aperta... ma chi è il cacciatore, e chi la preda?', 945, 16.58, 'Gargoyle', '2009', 'Horror'),
+('978227722637', 'Rinascimento privato ', 'Maria Bellonci', 'In queste pagine si racconta la vicenda di Isabella d\'Este, divenuta marchesa di Mantova dopo il matrimonio con Francesco Gonzaga; non di una semplice per quanto raffinata biografia si tratta, però, quanto di un vero e proprio romanzo: sia per la presenza di alcuni personaggi totalmente inventati - come Robert de la Pole, corrispondente del re d\'inghilterra e innamorato platonico di Isabella -, sia soprattutto per la qualità della scrittura, che sembra avvolgere in una sorta di abbagliante pulviscolo ogni figura e ogni fatto storico. Protagonista assoluta è lei, Isabella, che ormai alla soglia dei sessant\'anni rievoca la propria vita da quando, sposa sedicenne, giunse a Mantova e in un periodo tra i più tumultuosi e fulgidi della nostra storia, a cavallo tra Quattro e Cinquecento, resse le fila del piccolo stato costruendo attorno a sé una corte di ineguagliato splendore.', 488, 7.99, 'Mondadori', '2016', 'Storico'),
 ('9783492059848', 'Il Gattopardo', 'Giuseppe Tomasi di Lampedusa', 'Siamo in Sicilia, all\'epoca del tramonto borbonico: è di scena una famiglia della più alta aristocrazia isolana, colta nel momento rivelatore del trapasso di regime, mentre già incalzano i tempi nuovi (dall\'anno dell\'impresa dei Mille di Garibaldi la storia si prolunga fino ai primordi del Novecento). Accentrato quasi interamente intorno a un solo personaggio, il principe Fabrizio Salina, il romanzo, lirico e critico insieme, ben poco concede all\'intreccio e al romanzesco tanto cari alla narrativa dell\'Ottocento. L\'immagine della Sicilia che invece ci offre è un\'immagine viva, animata da uno spirito alacre e modernissimo, ampiamente consapevole della problematica storica e politica contemporanea.', 254, 6.99, 'Feltrinelli', '2013', 'Storico'),
 ('9785170686773', 'Pet Sematary ', 'Stephen King', 'Il dottor Louis Creed ha appena accettato l\'incarico di direttore sanitario dell\'Università del Maine, e con un certo entusiasmo: posizione di prestigio, magnifica villa di campagna dove Eileen e Gage, i suoi bambini, possono crescere tranquilli, vicini gentili e generosi in una cittadina idilliaca lontana dal caos metropolitano. Persino Winston Churchill, detto Church, il loro pigro e inseparabile gattone, sembra subito godere dei vantaggi della nuova situazione. Ben presto, però, la serena esistenza dei Creed viene sconvolta da una serie di episodi inquietanti: piccoli incidenti inspiegabili che coinvolgono i bambini, pericolosi e giganteschi camion che sfrecciano sulla superstrada proprio sotto casa Creed, incontri diabolicamente sorprendenti e, soprattutto, sogni. Sogni oscuri e terribilmente realistici che perseguitano Louis da quando ha visitato il Pet Sematary, il cimitero dove i ragazzi di Ludlow seppelliscono da sempre i loro animali domestici. Ufficialmente. Perché oltre quella radura, nascosto tra gli alberi, c\'è un altro terreno di sepoltura, ben più terrificante. Un luogo carico di presagi e di richiami, spaventosi quanto irresistibili, provenienti da un altro mondo. Un luogo dove al dottor Creed toccherà una scoperta raggelante: a volte è meglio essere morti... Pet Sematary, definito dal Washington Post «folle, potente, disturbante», è un vero e proprio classico della letteratura horror, ispirato, parola di King, da un leggendario racconto popolare: La zampa di scimmia.', 425, 13.99, 'Sperling & Kupfer', '2019', 'Horror'),
 ('9787207071804', 'I viaggi di Gulliver', 'Jonathan Swift', 'Cavalli che parlano e ragionano, giganti dalle proporzioni smisurate, nani così piccoli da poter essere tenuti in una tasca, filosofi che popolano isole volanti: sono solo alcune delle creature straordinarie che il capitano Lemuel Gulliver incontra nel corso dei suoi viaggi avventurosi, tra mille peripezie e innumerevoli pericoli. Pubblicato nel 1726, è oggi noto soprattutto come un classico della narrativa per ragazzi, ma rappresenta anche un capolavoro del fantastico e della satira. Dietro la favolosa descrizione delle immaginarie popolazioni di Lilliput, Brobdingnag, Laputa e Huyhnhnmlandia, la sferzante penna di Swift ritrae le assurdità e i difetti dell\'Europa settecentesca. Introduzione di Fabio Giovannini.', 256, 3.32, 'Newton Compton Editori', '2015', 'Avventura'),
@@ -167,7 +173,13 @@ INSERT INTO `pagamenti` (`ID`, `IDUtente`, `ISBNLibro`, `Data`, `Importo`, `Nume
 (9, 1, '9780671626884', '2020-14-02 04:09:26', 12.9, '123456'),
 (10, 1, '0062276468', '2020-14-02 04:17:53', 4.25, '123456'),
 (11, 1, '9781567673067', '2020-14-02 04:18:18', 9.35, '123456'),
-(12, 1, '9781617078545', '2020-14-02 04:19:29', 6.48, '123456');
+(12, 1, '9781617078545', '2020-14-02 04:19:29', 6.48, '123456'),
+(13, 4, '978877089125', '2020-16-02 10:45:44', 7.99, '345678'),
+(14, 4, '978227722637', '2020-16-02 10:46:32', 7.99, '345678'),
+(15, 4, '9781519497192', '2020-16-02 10:46:59', 7.02, '345678'),
+(16, 4, '9788498890372', '2020-16-02 10:47:20', 2.99, '345678'),
+(17, 4, '9788804548959', '2020-16-02 10:47:36', 7.99, '345678'),
+(18, 4, '0062276468', '2020-16-02 10:47:50', 4.25, '345678');
 
 -- --------------------------------------------------------
 
@@ -261,13 +273,13 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT per la tabella `librerie`
 --
 ALTER TABLE `librerie`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `pagamenti`
 --
 ALTER TABLE `pagamenti`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti`
