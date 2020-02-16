@@ -1,55 +1,66 @@
 .login-left{
-    margin-top: 300px;
+  margin-top: 300px;
 }
 .login-form{
-    margin-top: 200px;
-    padding-right: 150px;
-    padding-left: 50px;
+  margin-top: 200px;
+  padding-right: 150px;
+  padding-left: 50px;
 }
 
 .registration-form {
-    margin-top: 60px;
-    padding-right: 150px;
-    padding-left: 50px;
+  margin-top: 60px;
+  padding-right: 150px;
+  padding-left: 50px;
 }
 
 .no-account, .member-already {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 body {
-    font-family: "EB Garamond", sans-serif;
-    background: #261447 !important;
-    color: aliceblue !important;
+  font-family: "EB Garamond", sans-serif;
+  background: #261447 !important;
+  color: aliceblue !important;
+}
+
+hr {
+  border-color: aliceblue !important;
+}
+
+.navbar {
+  background: #847996 !important;
+}
+
+.header {
+  background-size: cover;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.jumbotron {
+  background: #586f7c !important;
+  margin-top: 150px;
+}
+
+.error {
+  color: red;
+}
+
+.modal {
+  color: black;
+}
+@media (max-width: 500px) {
+  .login-form{
+    margin-top: 20px !important;
   }
-  
-  hr {
-    border-color: aliceblue !important;
+  .login-left{
+    margin-top: 30px !important;
   }
-  
-  .navbar {
-    background: #847996 !important;
+  .form-group{
+    width: 250px;
   }
-  
-  .header {
-    background-size: cover;
-    text-align: center;
-    padding-top: 50px;
+  .legend-id{
+    align-items: center
   }
-  
-  .jumbotron {
-    background: #586f7c !important;
-    margin-top: 150px;
-  }
-  
-  .error {
-    color: red;
-  }
-  
-  .modal {
-    color: black;
-  }
-  tr:hover {
-    background-color: #847996 !important;
-  }
+ }
   

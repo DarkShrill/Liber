@@ -27,7 +27,7 @@ class PersonalUserHeader extends Component {
           <span className="navbar-toggler-icon" />
         </button>
 
-        <div className="collapse navbar-collapse" id="">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
               <Link className="nav-link" to="/user">
@@ -48,7 +48,7 @@ class PersonalUserHeader extends Component {
             </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/logout">
-                  Log Out
+                  Logout
                 </Link>
               </li>
           </ul>

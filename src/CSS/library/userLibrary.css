@@ -1,0 +1,16 @@
+.container{
+    margin-top:100px;
+}
+
+td {
+    height: 100px;
+}
+.search{
+    margin-bottom: 15px; 
+}
+.text-center{
+    margin-top:100px;
+}
+.buy-button{
+    top: 50%;
+}

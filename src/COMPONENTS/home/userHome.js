@@ -16,11 +16,11 @@ class Index extends Component {
         console.log(this.props.user);
       }
       componentDidMount() {
-        this.props.getUser();
+        // this.props.getUser();
         console.log(this.props.user);
         this.setState(() => ({
           user: this.props.user,
-          user_name: this.props.user.name
+          user_name: this.props.user.Nome
         }));
         //this.forceUpdate();
         

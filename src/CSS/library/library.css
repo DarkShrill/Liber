@@ -4,7 +4,22 @@
 
 td {
     height: 100px;
+    background: white;
 }
 .search{
     margin-bottom: 15px; 
+    margin-left: 80px;
+}
+
+.filter-autore{
+    margin-left: 10px;
+}
+.filter-casa-editrice{
+    margin-left: 10px;
+}
+.filter-genere{
+    margin-left: 15px;
+}
+.reset-filter{
+    margin-left: 15px;
 }

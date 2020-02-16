@@ -1,98 +1,126 @@
-import React, { Component ,useState} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import IndexNav from "../mainLayout/header/header";
-import "../../CSS/library/library.css";
-import { Input, Badge} from "reactstrap";
+import swal from "sweetalert";
+import IndexNav from "../../COMPONENTS/mainLayout/header/userHeader";
+import "../../CSS/library/userLibrary.css";
+import { Input, Badge } from "reactstrap";
 import { DropdownButton,Dropdown,Button } from "react-bootstrap";
 
 
+class UserLibrary extends Component {
 
-/**
- * Library component
- * Displays all books before user log in
- */
+    constructor(props) {
+        super(props);
+        this.state = {
+          user: this.props.user,
+          filter:"Cerca per titolo...",
+          filterCasaEditrice:"",
+          filterAutore:"",
+          filterGenere:"",
+          tempBook:[]
+        };
+        console.log("UTENTE PERSONAL AREA user lib: ");
+        console.log(this.props.user);
+        console.log(this.state.user);
+      }
+      componentDidMount() {
+        //this.props.getUser();
+        this.props.getBooks();
+        //this.props.getOwnBook();
+        console.log("PERSONAL AREA");
+        this.setState(() => ({
+          user: this.props.user
+          //ownBook:this.props.ownBook
+        }));
+      }
+  
 
-// Stateless Component: Has no state and operates with props only. Easy to follow and test
-
-class Library extends Component  {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      filter:"Cerca per titolo...",
-      filterCasaEditrice:"",
-      filterAutore:"",
-      filterGenere:"",
-      tempBook:[]
-    };
-  }
-
-  componentDidMount() {
-    this.props.getBooks();
-    this.props.initFilter();
-
-    // this.scrollListener = window.addEventListener("scroll", event => {
-    //   this.handleScroll(event);
-    // });
-  }
-
-  componentWillUpdate(){
-    console.log("LIBRARY");
-    console.log(this.props.library);
-
-  }
-
-  handleChange = event => {
-    this.setState({ filter: event.target.value });
-    console.log("------------------ FORCE UPDATE");
-    //this.forceUpdate();
-  };
-
-  casaEditriceFilterClicked = data => {
-    this.resetFilter();
-    this.setState({filterCasaEditrice: data})
-    //this.forceUpdate();
-  }
-
-  genereFilterClicked = data => {
-    this.resetFilter();
-    this.setState({filterGenere: data})
-    //this.forceUpdate();
-  }
-
-  autoreFilterClicked = data => {
-    this.resetFilter();
-    this.setState({filterAutore: data})
-    //this.forceUpdate();
-  }
-
-  resetFilter = () => {
-    this.setState({      filter:"Cerca per titolo...",
-    filterCasaEditrice:"",
-    filterAutore:"",
-    filterGenere:"",
-    tempBook:[]
-  });
-    //this.forceUpdate();
-  }
-
-  // handleScroll = () => {
-  //   const { scrolling, totalPages, page } = this.props;
-  //   if (scrolling) return;
-  //   if (totalPages <= page) return;
-  //   const lastTr = document.querySelector("tr.book > td:last-child");
-  //   const lastTrOffset = lastTr.offsetTop + lastTr.clientHeight;
-  //   const pageOffset = window.pageYOffset + window.innerHeight;
-  //   var bottomOffset = 20;
-  //   if (pageOffset > lastTrOffset - bottomOffset) this.props.loadMore();
-  // };
-  render() {
+      casaEditriceFilterClicked = data => {
+        this.resetFilter();
+        this.setState({filterCasaEditrice: data})
+        //this.forceUpdate();
+      }
     
+      genereFilterClicked = data => {
+        this.resetFilter();
+        this.setState({filterGenere: data})
+        //this.forceUpdate();
+      }
+    
+      autoreFilterClicked = data => {
+        this.resetFilter();
+        this.setState({filterAutore: data})
+        //this.forceUpdate();
+      }
+    
+      resetFilter = () => {
+        this.setState({      filter:"Cerca per titolo...",
+        filterCasaEditrice:"",
+        filterAutore:"",
+        filterGenere:"",
+        tempBook:[]
+      });
+        //this.forceUpdate();
+      }
 
-    return (
-      <React.Fragment>
-        <IndexNav />
-        <div className="container">
+    buyButtonHandler = ISBN => {
+      this.props.user.NumeroCarta === "" ? (
+        swal("You don't add a Credit card, please add one", { buttons: false, timer: 2500 })
+      ):(
+        this.props.buyLib({ISBN})
+      )
+    }
+       
+    render() {
+      return (
+        <React.Fragment>
+          <IndexNav 
+            user={this.props.user}/>
+            <div className="col-lg-12">
+                <div className="text-center">
+                <hr />
+                <h1>Books selected for me</h1>
+                <hr />
+                </div>
+                {this.props.loading ? (
+                this.props.loader
+                ) : (
+                <div className="table-responsive">
+                    <table className="table table-hover">
+                    <thead className="thead-dark">
+                        <tr>
+                        <th>Book Title</th>
+                        <th>Book Author</th>
+                        <th>Book Kind</th>
+                        <th>Book Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* {this.props.borrowedBooks.map(book => (
+                        <tr key={book.id}>
+                            <td>{book.title}</td>
+                            <td>{book.author}</td>
+                            <td>{book.isbn}</td>
+                            <td>{book.borrowDate}</td>
+                            <td>{book.dueDate}</td>
+                            <td>
+                            <Button
+                                className="btn btn-success"
+                                onClick={event =>
+                                this.props.returnBook(event, book.id)
+                                }
+                            >
+                                Return Book
+                            </Button>
+                            </td>
+                        </tr>
+                        ))} */}
+                    </tbody>
+                    </table>
+                </div>
+                )}
+            </div>
+            <div className="container">
           <div className="row">
             <div className="col-md-12">
               <div className="text-center">
@@ -152,6 +180,7 @@ class Library extends Component  {
                         <th>Casa editrice</th>
                         <th>Anno</th>
                         <th>Genere</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -160,7 +189,7 @@ class Library extends Component  {
                           this.props.library.filter((tile) => tile.Titolo.toLowerCase().includes(this.state.filter.toLowerCase())).map(book => (
                           
                               
-                                <tr key={book.IBSN} className="book">
+                                <tr key={book.ISBN} className="book">
                                 <td>{book.ISBN}</td>
                                 <td>{book.Titolo}</td>
                                 <td>{book.Autore}</td>
@@ -170,6 +199,7 @@ class Library extends Component  {
                                 <td>{book.CasaEditrice}</td>
                                 <td>{book.Anno}</td>
                                 <td>{book.Genere}</td>
+                                <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
                               </tr>
                               
                           )
@@ -186,6 +216,7 @@ class Library extends Component  {
                                 <td>{book.CasaEditrice}</td>
                                 <td>{book.Anno}</td>
                                 <td>{book.Genere}</td>
+                                <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
                               </tr>
                       ))):(
                         
@@ -203,6 +234,7 @@ class Library extends Component  {
                                     <td>{book.CasaEditrice}</td>
                                     <td>{book.Anno}</td>
                                     <td>{book.Genere}</td>
+                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
                                   </tr>))
                               ))):(
                           this.state.filterGenere !== "" ? (
@@ -219,6 +251,7 @@ class Library extends Component  {
                                     <td>{book.CasaEditrice}</td>
                                     <td>{book.Anno}</td>
                                     <td>{book.Genere}</td>
+                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
                                   </tr>))
                               ))):(
                           this.state.filterCasaEditrice !== "" ? (
@@ -235,6 +268,7 @@ class Library extends Component  {
                                     <td>{book.CasaEditrice}</td>
                                     <td>{book.Anno}</td>
                                     <td>{book.Genere}</td>
+                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
                                   </tr>))
                               ))):(console.log()))))
                         
@@ -246,14 +280,14 @@ class Library extends Component  {
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
+        </React.Fragment>
+      );
+    }
   }
-}
-
-Library.propTypes = {
-  library: PropTypes.array.isRequired,
-  loading: PropTypes.bool
-};
-
-export default Library;
+  
+  UserLibrary.propTypes = {
+    library: PropTypes.array.isRequired,
+    loading: PropTypes.bool
+  };
+  
+  export default UserLibrary;

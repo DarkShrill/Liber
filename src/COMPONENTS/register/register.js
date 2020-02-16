@@ -14,7 +14,6 @@ class Register extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      username: "",
       password: "",
       confirm_password: ""
     };
@@ -29,8 +28,14 @@ class Register extends Component {
      * Submits form content
      */
     event.preventDefault();
-    this.props.toggleLoading();
-    this.props.register(this.state);
+
+    if (this.state.password !== this.state.confirm_password) {
+      alert("Passwords don't match");
+    } else {
+
+      this.props.toggleLoading();
+      this.props.register(this.state);
+    }
   };
   render() {
     return this.props.registered ? (
@@ -102,24 +107,6 @@ class Register extends Component {
                       onChange={this.handleChange}
                       name="email"
                       value={this.state.email}
-                      required={true}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <div className="error">
-                      {this.props.regErrors.username
-                        ? this.props.regErrors.username
-                        : ""}
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      placeholder="Enter Username"
-                      onChange={this.handleChange}
-                      name="username"
-                      value={this.state.username}
                       required={true}
                     />
                   </div>

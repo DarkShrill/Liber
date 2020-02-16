@@ -11,12 +11,18 @@ import aboutUs from "./COMPONENTS/about/aboutUs"
 import PrivateRoute from "./UTILS/privateRoutes"
 import Library from "./COMPONENTS/library/library"
 import PersonalArea from "./COMPONENTS/personalArea/personalArea"
-
+import UserLibrary from "./COMPONENTS/library/userLibrary"
 import {
   loginUser,
   registerUser,
   fetchUser,
-  fetchBooks
+  fetchBooks,
+  fetchOwnBook,
+  updateUser,
+  fetchFilterGenere,
+  fetchFilterAutore,
+  fetchFilterCasaEditrice,
+  fetchBuy
 } from "./API/api";
 
 
@@ -37,13 +43,38 @@ class App extends Component {
         scrolling: false,
         author:{},
         kind:{},
-        ownBook:{}
+        token:{},
+        ownBook:[],
+        filterGenere : [],
+        filterAutore : [],
+        filterCasaEditrice : []
       };
 
       loginUser.bind(this);
       registerUser.bind(this);
       fetchUser.bind(this);
       fetchBooks.bind(this);
+      fetchOwnBook.bind(this);
+      updateUser.bind(this);
+  }
+
+  sendUpdateProfile = user => {
+    let accessToken = localStorage.getItem("accessToken");
+    let accessPassword = localStorage.getItem("userPassword");
+    console.log("PASS")
+    console.log(accessPassword);
+    this.setState(() => ({ token: accessToken }));
+    updateUser({user: user,token:accessToken,password:accessPassword}).then(res => {
+      this.setState(() => ({
+        registered: true,
+        regErrors: {},
+        loading: false,
+      }));
+      swal("Update Data Successfully",{timer: 1500});
+    }).catch(error => {
+      swal("Update Data  fail",{timer: 2500});
+      this.setState(() => ({ regErrors: error.error, loading: false }));
+    });
   }
 
   register = regData => {
@@ -80,16 +111,18 @@ class App extends Component {
     loginUser(loginData).then(res => {
       if (res.status === "success") {
         localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("userData", loginData.username);
+        localStorage.setItem("userData", loginData.Email);
+        localStorage.setItem("userPassword", loginData.password);
         // set state is an asynchronous function
         // Pass function to make it deterministic
         this.setState(() => ({
           loggedIn: true,
           loading: false,
           loginErrors: {},
-          user : res.user
+          user : res.user,
+          token:res.token
         }));
-        swal("Logged In Successfully " , { buttons: false, timer: 2500 });
+        swal("Logged In Successfully " , { buttons: false, timer: 1500 });
         //swal(String(res.accessToken), { buttons: false, timer: 2500 });
       } else {
         swal("Logged In FAILED", { buttons: false, timer: 2500 });
@@ -104,6 +137,7 @@ class App extends Component {
      */
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userData");
+    localStorage.removeItem("userPassword");
     this.setState(() => ({
       loggedIn: false,
       user: {},
@@ -111,23 +145,23 @@ class App extends Component {
     }));
   };
 
-  getUser = () => {
-    /**
-     * Gets user details
-     */
-    let accessToken = localStorage.getItem("accessToken");
-    let accessAccount = localStorage.getItem("userData");
-    console.log("ACCESS ACCOUNT == " + accessAccount);
-    fetchUser(accessAccount).then(res => {
-      console.log(res);
-      this.setState(() => ({ user: res.user }));
-      //this.setState({ user: res.user.usr });
-      console.log(res.user);
-      console.log(this.state.user);
-    }).catch(res => {
-      console.log("------------    ERRORE");
-    });
-  };
+  // getUser = () => {
+  //   /**
+  //    * Gets user details
+  //    */
+  //   let accessToken = localStorage.getItem("accessToken");
+  //   let accessAccount = localStorage.getItem("userData");
+  //   console.log("ACCESS ACCOUNT == " + accessAccount);
+  //   fetchUser(accessAccount).then(res => {
+  //     console.log(res);
+  //     this.setState(() => ({ user: res.user }));
+  //     //this.setState({ user: res.user.usr });
+  //     console.log(res.user);
+  //     console.log(this.state.user);
+  //   }).catch(res => {
+  //     console.log("------------    ERRORE");
+  //   });
+  // };
 
   getBooks = () => {
     /**
@@ -139,15 +173,76 @@ class App extends Component {
       console.log(res);
       res.status === "success"
         ? this.setState(() => ({
-            library: [...library, ...res.books],
+            library: [...res.books],
             loading: false,
-            totalPages: res.totalPages,
             scrolling: false,
             error: {}
           }))
         : this.setState(() => ({ error: res.error, loading: false }));
     });
   };
+
+  getOwnBook = () => {
+    let accessToken = localStorage.getItem("accessToken");
+    fetchOwnBook({token:accessToken,ID:this.state.user.ID}).then(res => {
+      res.status === "success" ? (
+        this.setState(() => ({
+          ownBook:[...res.ownBook]
+        })))
+        :
+        this.setState(() => ({ error: res.error, loading: false }));
+    })
+
+  } 
+
+  initFilter = () => {
+      fetchFilterGenere().then(res => {
+          res.status === "success" ? 
+          this.setState(() => ({
+            filterGenere: [...res.filter],
+            loading: false,
+            error: {}
+          }))
+          : this.setState(() => ({ error: res.error, loading: false }));
+      })
+
+      fetchFilterAutore().then(res => {
+        res.status === "success" ? 
+        this.setState(() => ({
+          filterAutore: [...res.filter],
+          loading: false,
+          error: {}
+        }))
+        : this.setState(() => ({ error: res.error, loading: false }));
+    })
+
+    fetchFilterCasaEditrice().then(res => {
+      res.status === "success" ? 
+      this.setState(() => ({
+        filterCasaEditrice: [...res.filter],
+        loading: false,
+        error: {}
+      }))
+      : this.setState(() => ({ error: res.error, loading: false }));
+  })
+  }
+
+  buyLib = data => {
+    let accessToken = localStorage.getItem("accessToken");
+    fetchBuy({token: accessToken,IDUtente:this.state.user.ID,ISBNLibro:data.ISBN}).then(res => {
+
+      if(res.status === "success"){
+        swal("Buy status : SUCCESS" , { buttons: false, timer: 1500 });
+        this.setState(() => ({
+        loading: false,
+        error: {}
+      }))
+      }else{
+         this.setState(() => ({ error: res.error, loading: false }));
+         swal("Buy status : FAIL" , { buttons: false, timer: 1500 });
+      }
+    });
+  }
 
   
   render() {
@@ -215,6 +310,10 @@ class App extends Component {
                   loading={this.state.loading}
                   scrolling={this.state.scrolling}
                   loadMore={this.loadMore}
+                  initFilter = {this.initFilter}
+                  filterGenere = {this.state.filterGenere}
+                  filterAutore = {this.state.filterAutore}
+                  filterCasaEditrice = {this.state.filterCasaEditrice}
                 />
               )}
             />
@@ -227,6 +326,27 @@ class App extends Component {
               ownBook={this.state.ownBook}
               loader={<Loader />}
               loading={this.state.loading}
+              sendUpdateProfile={this.sendUpdateProfile}
+              initFilter = {this.initFilter}
+              filterGenere = {this.state.filterGenere}
+              filterAutore = {this.state.filterAutore}
+              filterCasaEditrice = {this.state.filterCasaEditrice}
+            />
+            <PrivateRoute
+              path="/userLibrary"
+              component={UserLibrary}
+              user={this.state.user}
+              library={this.state.library}
+              getBooks={this.getBooks}
+              getOwnBook={this.getOwnBook}
+              ownBook={this.state.ownBook}
+              loader={<Loader />}
+              loading={this.state.loading}
+              initFilter = {this.initFilter}
+              filterGenere = {this.state.filterGenere}
+              filterAutore = {this.state.filterAutore}
+              filterCasaEditrice = {this.state.filterCasaEditrice}
+              buyLib = {this.buyLib}
             />
 
 
