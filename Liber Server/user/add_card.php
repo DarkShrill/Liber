@@ -20,9 +20,19 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(!$data) {
+if(!$data || empty($data->token)) {
     http_response_code(401);
     echo json_encode(array("outcome" => "missing data"));
+    return;
+}
+
+$token_check = new ActivityController($db, false);
+$token_check->token = $data->token;
+
+
+if($token_check->check_token() === false) {
+    http_response_code(401);
+    echo json_encode(array("outcome" => "bad token"));
     return;
 }
 

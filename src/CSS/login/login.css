@@ -24,11 +24,11 @@ body {
 }
 
 hr {
-  border-color: aliceblue !important;
+  border-color: aliceblue;
 }
 
 .navbar {
-  background: #847996 !important;
+  background-color: #FBD995 !important;
 }
 
 .header {
@@ -38,7 +38,8 @@ hr {
 }
 
 .jumbotron {
-  background: #586f7c !important;
+  color: black !important;
+  background: #E7B756 !important;
   margin-top: 150px;
 }
 
@@ -49,6 +50,13 @@ hr {
 .modal {
   color: black;
 }
+
+@media only screen and (max-width: 1025px) { 
+  .container.loginResponsive{
+    margin-top: 85px !important;
+  }
+}
+
 @media (max-width: 500px) {
   .login-form{
     margin-top: 20px !important;

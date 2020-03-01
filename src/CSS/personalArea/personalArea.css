@@ -30,3 +30,18 @@ td {
 	padding-right: 50px;
 	padding-bottom: 50px;
 }
+
+.book-element-container-personal {
+    width: 275px;
+    height: 405px;
+    float: left;
+    text-align: center;
+}
+
+
+@media only screen and (max-width: 1025px) { 
+	.container.loginResponsive{
+	  margin-top: 85px !important;
+	}
+  }
+  

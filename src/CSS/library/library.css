@@ -2,10 +2,70 @@
     margin-top:100px;
 }
 
-td {
-    height: 100px;
-    background: white;
+html {
+    background-image: url("../../img/main_background.jpg");
+    background-size: 100vw 100vh;
+    overflow-x: hidden;
 }
+
+.text-center {
+    color: black;
+}
+
+hr {
+    border: 1px solid black !important;
+}
+
+#root {
+    background-image: url("../../img/main_background.jpg");
+    background-size: 100vw 100vh;
+}
+
+
+.mainContainer {
+    width: 100%;
+}
+
+.book-element-container {
+    width: 275px;
+    height: 485px;
+    float: left;
+    text-align: center;
+}
+
+
+.books-row {
+    z-index: 0 !important;
+    overflow: hidden;
+}
+
+.book-cover {
+    width: 178px;
+    height: 250px;
+    margin-left: 51px;
+    z-index: 1;
+    position: relative;
+    background-image: url("../../img/default_book_cover.jpg");
+    background-size: 178px 250px;
+}
+
+.book-cover:hover {
+    width: 200px;
+    height: 300px;
+    background-size: 200px 300px;
+    cursor: pointer;
+}
+
+.buyButton {
+    margin-top: 10px;
+}
+
+.base-text {
+    color: black;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
 .search{
     margin-bottom: 15px; 
     margin-left: 80px;
@@ -23,3 +83,36 @@ td {
 .reset-filter{
     margin-left: 15px;
 }
+
+@media only screen and (max-width: 1025px) {
+	.container.loginResponsive{
+	  margin-top: 85px !important;
+	}
+  
+    .search{
+        margin-bottom: 30px;
+        margin-left: 0px;
+    }
+
+    .filter-autore{
+        margin-left: 15px;
+        margin-bottom: 10px;
+        width: 80%;
+    }
+    .filter-casa-editrice{
+        margin-left: 15px;
+        margin-bottom: 10px;
+        width: 80%;
+    }
+    .filter-genere{
+        margin-left: 15px;
+        margin-bottom: 10px;
+        width: 80%;
+    }
+    .reset-filter{
+        margin-left: 15px;
+        margin-bottom: 10px;
+        width: 80%;
+    }
+}
+

@@ -5,15 +5,11 @@ import { Link } from "react-router-dom";
  */
 
 class PersonalUserHeader extends Component {
-  constructor(props){
-    super(props);
-
-  }
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top index-nav">
+      <nav className="navbar navbar-expand-lg navbar-light fixed-top index-nav">
         <Link className="navbar-brand" to="/user">
-            Welcome to Book Reader
+            Benvenuti in Liber
         </Link>
         <button
           className="navbar-toggler"
@@ -35,8 +31,8 @@ class PersonalUserHeader extends Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/userLibrary">
-                Library
+              <Link className="nav-link" to="/aboutUs">
+                Chi siamo
               </Link>
             </li>
           </ul>
@@ -46,6 +42,9 @@ class PersonalUserHeader extends Component {
             <li className="nav-item">
               <img src="https://image.flaticon.com/icons/svg/566/566985.svg" alt="Img "/>
             </li>
+            <li><Link className="nav-link" to="/updateProfile">
+                  Modifica Profilo
+                </Link></li>
               <li className="nav-item">
                 <Link className="nav-link" to="/logout">
                   Logout

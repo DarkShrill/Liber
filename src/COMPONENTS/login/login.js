@@ -35,11 +35,11 @@ class Login extends Component {
     ) : (
       <React.Fragment>
         <IndexNav />
-        <div className="container">
+        <div className="container loginResponsive">
           <div className="row">
             <div className="col-md-6 login-left text-center">
-              <h1>WELCOME TO THE READER</h1>
-              <p>We are happy to have you here</p>
+              <h1>Benvenuti in Liber!</h1>
+              <p>Siamo lieti di avervi con noi</p>
             </div>
             <div className="col-md-6">
               <div className="login-form">
@@ -102,7 +102,7 @@ class Login extends Component {
                   </div>
                 </form>
                 <p className="no-account">
-                  Don't have an account? <Link to="/register">Register</Link>
+                  Non hai ancora un account? <Link to="/register">Registrati</Link>
                 </p>
               </div>
             </div>

@@ -1,4 +1,7 @@
-body {
+.register-left {
+    margin-top: 300px;
+  }
+  body {
     font-family: "EB Garamond", sans-serif;
     background: #261447 !important;
     color: aliceblue !important;
@@ -22,7 +25,6 @@ body {
     color: black !important;
     background: #E7B756 !important;
     margin-top: 150px;
-    animation: myanimation 10s infinite;
   }
   
   .error {
@@ -32,15 +34,20 @@ body {
   .modal {
     color: black;
   }
-   .jumbotron:hover {
-    color: black !important;
-    background-color: #E7B756 !important;
-    animation: myanimation 10s infinite;
-  } 
+  
+  .login-form{
+    margin-top: 200px;
+    padding-right: 150px;
+    padding-left: 50px;
+}
 
-  @media (max-width: 500px) {
-    .jumbotron {
-      margin-top: 0px;
-    }
-  }
+.registration-form {
+    margin-top: 60px;
+    padding-right: 150px;
+    padding-left: 50px;
+}
 
+.no-account, .member-already {
+    margin-top: 15px;
+}
+    

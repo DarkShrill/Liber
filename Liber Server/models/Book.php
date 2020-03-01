@@ -48,6 +48,7 @@
                 $found = true;
             }
 
+            $query .= " ORDER BY Titolo ASC ";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
@@ -122,7 +123,7 @@
 
         public function search_filter($filter) {
 
-            $query = "SELECT DISTINCT $filter FROM libri ";
+            $query = "SELECT DISTINCT $filter FROM libri ORDER BY $filter ASC ";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();

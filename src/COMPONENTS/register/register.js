@@ -19,6 +19,7 @@ class Register extends Component {
     };
   }
   handleChange = event => {
+    console.log(event.target);
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -46,12 +47,12 @@ class Register extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-6 register-left text-center">
-              <h1>WELCOME TO THE READER</h1>
-              <p>We are happy to have you here</p>
+              <h1>Benvenuti in Liber!</h1>
+              <p>Siamo lieti di avervi con noi</p>
             </div>
             <div className="col-md-6">
               <div className="registration-form">
-                <legend>Register</legend>
+                <legend>Registrati</legend>
                 <form onSubmit={this.handleSubmit}>
                   <div className="error">
                     {this.props.regErrors.Message
@@ -59,7 +60,7 @@ class Register extends Component {
                       : ""}
                   </div>
                   <div className="form-group">
-                    <label htmlFor="first_name">First Name</label>
+                    <label htmlFor="first_name">Nome</label>
                     <div className="error">
                       {this.props.regErrors.first_name
                         ? this.props.regErrors.first_name
@@ -77,7 +78,7 @@ class Register extends Component {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="last_name">Last Name</label>
+                    <label htmlFor="last_name">Cognome</label>
                     <div className="error">
                       {this.props.regErrors.last_name
                         ? this.props.regErrors.last_name
@@ -129,7 +130,7 @@ class Register extends Component {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="confirm_password">Confirm Password</label>
+                    <label htmlFor="confirm_password">Conferma Password</label>
                     <div className="error">
                       {this.props.regErrors.confirm_password
                         ? this.props.regErrors.confirm_password
@@ -151,13 +152,13 @@ class Register extends Component {
                       this.props.loader
                     ) : (
                       <button type="submit" className="btn btn-primary">
-                        Register
+                        Registrati
                       </button>
                     )}
                   </div>
                 </form>
                 <p className="member-already">
-                  Already a member? <Link to="/login">Log in</Link>
+                  Sei già registrato? <Link to="/login">Accedi</Link>
                 </p>
               </div>
             </div>

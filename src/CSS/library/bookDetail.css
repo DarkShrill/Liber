@@ -1,0 +1,84 @@
+.container{
+    margin-top:100px;
+}
+
+td {
+    height: 100px;
+}
+.search{
+    margin-bottom: 15px; 
+}
+
+.buy_button{
+    margin-top: 20px;
+}
+
+.book_cover {
+    width: 225px;
+    height: 350px;
+    background-image: url("../../img/default_book_cover.jpg");
+    background-size: 225px 350px;
+    margin-left: 100px;
+    margin-top: 100px;
+    float: left;
+}
+
+.leftDiv {
+    margin-top: 100px;
+    margin-left: 50px;
+    font-size: 20px;
+    width: calc(100% - 500px);
+    float: left;
+}
+
+.book_plot {
+    font-size: 20px;
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
+    float: right;
+    color: black;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 1025px) {
+    .book_cover {
+        width: 225px;
+        height: 350px;
+        background-image: url("../../img/default_book_cover.jpg");
+        background-size: 225px 350px;
+        margin-left: 75px;
+        margin-top: 100px;
+        float: left;
+    }
+
+    .leftDiv {
+        margin-top: 100px;
+        margin-left: 20px;
+        font-size: 20px;
+        width: calc(100% - 10px);
+        float: left;
+    }
+    
+    .book_plot {
+        font-size: 20px;
+        margin-top: 100px;
+        margin-left: 20px;
+        margin-right: 10px;
+        float: right;
+        color: black;
+        font-weight: 500;
+    }
+}
+
+.book_info {
+    margin-top: 10px;
+    color: black;
+    font-weight: 500;
+}
+
+.info-headers {
+    color: black;
+    font-weight: 1000;
+    font-size: 22px;
+}

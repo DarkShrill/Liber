@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "../../../CSS/mainLayout/header/header.css"
 
 /**
  * Index nav component
  */
 
-class IndexNav extends Component {
+class IndexNavLogged extends Component {
   render() {
-    
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -43,17 +43,24 @@ class IndexNav extends Component {
 
           <div>
             <ul className="nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  Login
+            <li className="nav-item">
+            <img
+                      src="https://cdn2.iconfinder.com/data/icons/rcons-user/32/male-shadow-circle-512.png"
+                      alt="Profile"
+                      className="img-prof"
+                    />
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/personalArea">
+                  Ciao, {String(this.props.user.Nome)}
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/register">
-                  Registrati
+                <Link className="nav-link" to="/logout">
+                  Logout
                 </Link>
               </li>
-            </ul>
+          </ul>
           </div>
         </nav>
       </div>
@@ -61,4 +68,4 @@ class IndexNav extends Component {
   }
 }
 
-export default IndexNav;
+export default IndexNavLogged;

@@ -20,9 +20,19 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(!$data) {
+if(!$data || empty($data->token)) {
     http_response_code(401);
     echo json_encode(array("outcome" => "missing data"));
+    return;
+}
+
+$token_check = new ActivityController($db, false);
+$token_check->token = $data->token;
+
+
+if($token_check->check_token() === false) {
+    http_response_code(401);
+    echo json_encode(array("outcome" => "bad token"));
     return;
 }
 
@@ -32,6 +42,12 @@ if(!empty($data->IDUtente) && !empty($data->ISBNLibro)) {
 
     $payment->user_ID = $data->IDUtente;
     $payment->book_ID = $data->ISBNLibro;
+
+    if($payment->has_book()) {
+        http_response_code(401);
+        echo json_encode(array("outcome" => "book already bought"));
+        return;
+    }
 
     if($payment->pay()) {
         http_response_code(200);

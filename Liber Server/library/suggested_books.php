@@ -49,14 +49,14 @@ if(!empty($data->previous_ISBN_list)) {
 
     try {
 
-        $ISBN_array = json_decode($data->previous_ISBN_list);
+        $ISBN_array = $data->previous_ISBN_list;
         $clause = "(";
 
         for($i = 0; $i < count($ISBN_array); $i++) {
 
             $clause .= "'" .$ISBN_array[$i]. "'";
 
-            if($i != count($ISBN_array)) {
+            if($i != count($ISBN_array)-1) {
 
                 $clause .= ",";
 

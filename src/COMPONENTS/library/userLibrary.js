@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import swal from "sweetalert";
 import IndexNav from "../../COMPONENTS/mainLayout/header/userHeader";
 import "../../CSS/library/userLibrary.css";
-import { Input, Badge } from "reactstrap";
+import { Input } from "reactstrap";
 import { DropdownButton,Dropdown,Button } from "react-bootstrap";
 
 
@@ -17,20 +17,33 @@ class UserLibrary extends Component {
           filterCasaEditrice:"",
           filterAutore:"",
           filterGenere:"",
-          tempBook:[]
+          tempBook:[],
+          suggestedBooks: this.props.suggestedBooks,
+          needsCreditCard: false
         };
+
+        console.log("NEEDS CREDIT CARD " + this.state.needsCreditCard);
+
+        if(this.state.needsCreditCard) {
+          this.props.history.push("/creditCard");
+        }
+
+        if(!this.props.token) {
+          console.log("NESSUN TOKEN");
+          this.props.history.push("/library");
+        }
+
         console.log("UTENTE PERSONAL AREA user lib: ");
         console.log(this.props.user);
         console.log(this.state.user);
+
+
       }
       componentDidMount() {
-        //this.props.getUser();
         this.props.getBooks();
-        //this.props.getOwnBook();
-        console.log("PERSONAL AREA");
+        this.props.initFilter();
         this.setState(() => ({
           user: this.props.user
-          //ownBook:this.props.ownBook
         }));
       }
   
@@ -64,94 +77,143 @@ class UserLibrary extends Component {
       }
 
     buyButtonHandler = ISBN => {
-      this.props.user.NumeroCarta === "" ? (
-        swal("You don't add a Credit card, please add one", { buttons: false, timer: 2500 })
-      ):(
-        this.props.buyLib({ISBN})
-      )
+      var _self = this;
+      if(this.props.user.NumeroCarta === null) {
+        this.setState({
+          needsCreditCard: true
+        });
+        swal("Nessuna carta di credito collegata a questo account", { buttons: false, timer: 2500 }).then(function() {
+          _self.props.history.push("/creditCard");
+        });
+      } else {
+        swal("Sei sicuro di voler confermare l'acquisto?", {
+          buttons: {cancel: "No", buy: "Sì"},
+        }).then(function(value) {
+          if(value === "buy") {
+            _self.props.buyLib({ISBN})
+          }
+        });
+      }
     }
-       
-    render() {
+
+  openBookDetail = id => {
+      var _self = this;
+      this.props.setDetailBook(this.props.library.filter((tile) => tile.ISBN === id)[0], function() {
+        _self.props.history.push("/bookDetail");
+      });
+    }   
+
+  displayBooks = books => {
+    var elements = [];
+
+    for(let i = 0; i < books.length; i++) {
+      elements.push(<div key={books[i].ISBN} className="book-element-container">
+        <div className="book-cover" onClick={() => {this.openBookDetail(books[i].ISBN)}}></div>
+        <div className="base-text">{books[i].Titolo}</div>
+        <div className="base-text">{books[i].Autore}</div>
+        <div className="base-text">{Number(books[i].Prezzo).toFixed(2) + " €"}</div>
+        <Button onClick={() => {this.buyButtonHandler(books[i].ISBN)}} className="buyButton" variant="success">Acquista</Button>
+      </div>);
+    }
+
+    return elements;
+  }
+
+  render() {
+    var elements;
+    var books;
+
+    if(this.state.filter !== "Cerca per titolo..." && this.state.filter !== "" && (this.state.filterCasaEditrice === "" || this.state.filterAutore  === "" ||
+      this.state.filterGenere === "")) {
+        books = this.props.library.filter((tile) => tile.Titolo.toLowerCase().includes(this.state.filter.toLowerCase()));
+    } else if(this.state.filterCasaEditrice === "" && this.state.filterAutore === "" && this.state.filterGenere === "") {
+      books = this.props.library;
+    } else if(this.state.filterAutore !== "") {
+      books = this.props.library.filter((tile) => tile.Autore.toLowerCase().includes(this.state.filterAutore.toLowerCase()));
+    } else if(this.state.filterGenere !== "") {
+      books = this.props.library.filter((tile) => tile.Genere.toLowerCase().includes(this.state.filterGenere.toLowerCase()));
+    } else if(this.state.filterCasaEditrice !== "") {
+      books = this.props.library.filter((tile) => tile.CasaEditrice.toLowerCase().includes(this.state.filterCasaEditrice.toLowerCase()));
+    } else {
+      console.log("Errore");
+    }
+
+    elements = this.displayBooks(books);
+
+    console.log("SUGGETED BOOKS");
+    console.log(this.props.suggestedBooks);
+
       return (
         <React.Fragment>
           <IndexNav 
             user={this.props.user}/>
-            <div className="col-lg-12">
-                <div className="text-center">
-                <hr />
-                <h1>Books selected for me</h1>
-                <hr />
+            <div className="text-center">
+            {this.props.loading ? (
+            this.props.loader
+            ) : (
+              this.props.suggestedBooks.length === 0 ? (
+                <div>
+                  <hr />
+                  <h1>Consigliati per te</h1>
+                  <hr />
+                  <h2>Acquista nel nostro negozio per farci sapere che generi ti piacciono.<br/> Selezioneremo per te i libri che potrebbero interessarti!</h2>
                 </div>
-                {this.props.loading ? (
-                this.props.loader
-                ) : (
-                <div className="table-responsive">
-                    <table className="table table-hover">
-                    <thead className="thead-dark">
-                        <tr>
-                        <th>Book Title</th>
-                        <th>Book Author</th>
-                        <th>Book Kind</th>
-                        <th>Book Page</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* {this.props.borrowedBooks.map(book => (
-                        <tr key={book.id}>
-                            <td>{book.title}</td>
-                            <td>{book.author}</td>
-                            <td>{book.isbn}</td>
-                            <td>{book.borrowDate}</td>
-                            <td>{book.dueDate}</td>
-                            <td>
-                            <Button
-                                className="btn btn-success"
-                                onClick={event =>
-                                this.props.returnBook(event, book.id)
-                                }
-                            >
-                                Return Book
-                            </Button>
-                            </td>
-                        </tr>
-                        ))} */}
-                    </tbody>
-                    </table>
+                ) : 
+                (
+                <div>
+                <hr />
+                <h1>Consigliati per te</h1>
+                <button type="button" onClick={() => {this.props.getSuggestedBooks()}} 
+                        className="btn btn-warning">Mostra altri</button>
+                <hr />
+                <div className="book-slider-wrapper">
+                  <div className="book-slider">
+                      {this.props.suggestedBooks.map(book => (
+                      <div className="book-element" key={book.ISBN}>
+                        <div className="book-cover-suggested" onClick={() => {this.openBookDetail(book.ISBN)}}></div>
+                        <div className="base-text">{book.Titolo}</div>
+                        <div className="base-text">{book.Autore}</div>
+                        <div className="base-text">{Number(book.Prezzo).toFixed(2) + " €"}</div>
+                        <Button onClick={() => {this.buyButtonHandler(book.ISBN)}} className="buyButton" variant="success">Acquista</Button>
+                      </div>
+                      ))}
+                  </div>
                 </div>
-                )}
+                </div>
+                )
+            )}
             </div>
             <div className="container">
-          <div className="row">
-            <div className="col-md-12">
               <div className="text-center">
                 <hr />
-                <h1>Book Library</h1>
+                <h1>Negozio</h1>
                 <hr />
               </div>
               <div className="row">
                 <div className="filter-genere" >
-                  <DropdownButton title="Filtro per Genere" className="m-b m-t" id="dropdown-organization">
+                  <DropdownButton title="Filtra per Genere" className="m-b m-t" id="dropdown-organization">
                       {this.props.filterGenere.map((organization, i) =>
-                      <Dropdown.Item key={i}onClick={() => this.genereFilterClicked(organization)}>{organization}</Dropdown.Item>)}
+                      <Dropdown.Item key={i} onClick={() => this.genereFilterClicked(organization)}>{organization}</Dropdown.Item>)}
                   </DropdownButton>
                 </div>
                 <div className="filter-autore">
-                  <DropdownButton title="Filtro per Autore" className="m-b m-t" id="dropdown-organization">
+                  <DropdownButton title="Filtra per Autore" className="m-b m-t" id="dropdown-organization">
                       {this.props.filterAutore.map((organization, i) =>
-                      <Dropdown.Item key={i}onClick={() => this.autoreFilterClicked(organization)}>{organization}</Dropdown.Item>)}
+                      <Dropdown.Item key={i }onClick={() => this.autoreFilterClicked(organization)}>{organization}</Dropdown.Item>)}
                   </DropdownButton>
                 </div>
                 <div className="filter-casa-editrice">
-                  <DropdownButton title="Filtro per Casa Editrice" className="m-b m-t" id="dropdown-organization">
+                  <DropdownButton title="Filtra per Casa Editrice" className="m-b m-t" id="dropdown-organization">
                       {this.props.filterCasaEditrice.map((organization, i) =>
                       <Dropdown.Item key={i} onClick={() => this.casaEditriceFilterClicked(organization)}>{organization}</Dropdown.Item>)}
                   </DropdownButton>
                 </div>
                 <div className="reset-filter">
-                  <Button variant="warning" onClick={this.resetFilter}>Reset Filter</Button>
+                  <Button variant="warning" onClick={this.resetFilter}>Resetta</Button>
                 </div>
                 <div className="col-md-4">
                   <Input
+                      key="searchTextBox"
                       name="search"
                       type="text"
                       placeholder="Cerca per titolo..."
@@ -168,118 +230,12 @@ class UserLibrary extends Component {
               {this.props.loading ? (
                 this.props.loader
               ) : (
-                  <table className="table table-striped">
-                    <thead className="thead-dark">
-                      <tr>
-                        <th>ISBN</th>
-                        <th>Titolo</th>
-                        <th>Autore</th>
-                        <th>Trama</th>
-                        <th>Numero Pagine</th>
-                        <th>Prezzo</th>
-                        <th>Casa editrice</th>
-                        <th>Anno</th>
-                        <th>Genere</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        this.state.filter !== "Cerca per titolo..." && this.state.filter !== "" && (this.state.filterCasaEditrice === "" || this.state.filterAutore  === "" || this.state.filterGenere === "")? (
-                          this.props.library.filter((tile) => tile.Titolo.toLowerCase().includes(this.state.filter.toLowerCase())).map(book => (
-                          
-                              
-                                <tr key={book.ISBN} className="book">
-                                <td>{book.ISBN}</td>
-                                <td>{book.Titolo}</td>
-                                <td>{book.Autore}</td>
-                                <td>{book.Trama}</td>
-                                <td>{book.NumeroPagine}</td>
-                                <td>{book.Prezzo + " €"}</td>
-                                <td>{book.CasaEditrice}</td>
-                                <td>{book.Anno}</td>
-                                <td>{book.Genere}</td>
-                                <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
-                              </tr>
-                              
-                          )
-                          )):(
-                            this.state.filterCasaEditrice === "" && this.state.filterAutore === "" && this.state.filterGenere === "" ? (
-                              this.props.library.map(book => (
-                              <tr key={book.IBSN} className="book">
-                                <td>{book.ISBN}</td>
-                                <td>{book.Titolo}</td>
-                                <td>{book.Autore}</td>
-                                <td>{book.Trama}</td>
-                                <td>{book.NumeroPagine}</td>
-                                <td>{book.Prezzo + " €"}</td>
-                                <td>{book.CasaEditrice}</td>
-                                <td>{book.Anno}</td>
-                                <td>{book.Genere}</td>
-                                <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
-                              </tr>
-                      ))):(
-                        
-                          this.state.filterAutore !== "" ? (
-                            this.props.library.filter((tile) => tile.Autore.toLowerCase().includes(this.state.filterAutore.toLowerCase())).map(book => (
-                                this.state.tempBook.push(book),
-                                this.state.tempBook.map(book => (
-                                  <tr key={book.IBSN} className="book">
-                                    <td>{book.ISBN}</td>
-                                    <td>{book.Titolo}</td>
-                                    <td>{book.Autore}</td>
-                                    <td>{book.Trama}</td>
-                                    <td>{book.NumeroPagine}</td>
-                                    <td>{book.Prezzo + " €"}</td>
-                                    <td>{book.CasaEditrice}</td>
-                                    <td>{book.Anno}</td>
-                                    <td>{book.Genere}</td>
-                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
-                                  </tr>))
-                              ))):(
-                          this.state.filterGenere !== "" ? (
-                            this.props.library.filter((tile) => tile.Genere.toLowerCase().includes(this.state.filterGenere.toLowerCase())).map(book => (
-                                this.state.tempBook.push(book),
-                                this.state.tempBook.map(book => (
-                                  <tr key={book.IBSN} className="book">
-                                    <td>{book.ISBN}</td>
-                                    <td>{book.Titolo}</td>
-                                    <td>{book.Autore}</td>
-                                    <td>{book.Trama}</td>
-                                    <td>{book.NumeroPagine}</td>
-                                    <td>{book.Prezzo + " €"}</td>
-                                    <td>{book.CasaEditrice}</td>
-                                    <td>{book.Anno}</td>
-                                    <td>{book.Genere}</td>
-                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
-                                  </tr>))
-                              ))):(
-                          this.state.filterCasaEditrice !== "" ? (
-                            this.props.library.filter((tile) => tile.CasaEditrice.toLowerCase().includes(this.state.filterCasaEditrice.toLowerCase())).map(book => (
-                                this.state.tempBook.push(book),
-                                this.state.tempBook.map(book => (
-                                  <tr key={book.IBSN} className="book">
-                                    <td>{book.ISBN}</td>
-                                    <td>{book.Titolo}</td>
-                                    <td>{book.Autore}</td>
-                                    <td>{book.Trama}</td>
-                                    <td>{book.NumeroPagine}</td>
-                                    <td>{book.Prezzo + " €"}</td>
-                                    <td>{book.CasaEditrice}</td>
-                                    <td>{book.Anno}</td>
-                                    <td>{book.Genere}</td>
-                                    <td className="buy-button" onClick={() => {this.buyButtonHandler(book.ISBN)}}><Button variant="success">Buy</Button></td>
-                                  </tr>))
-                              ))):(console.log()))))
-                        
-                      )}
-                    </tbody>
-                  </table>
+                  <div className="mainContainer">
+                    {elements}
+                  </div>
               )}
               {this.props.scrolling ? this.props.loader : ""}
             </div>
-          </div>
-        </div>
         </React.Fragment>
       );
     }

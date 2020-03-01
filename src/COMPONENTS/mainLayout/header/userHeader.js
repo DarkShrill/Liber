@@ -18,9 +18,9 @@ class UserHeader extends Component {
     return (
 
 
-      <nav className="navbar navbar-expand-md navbar-light bg-light">
+      <nav className="navbar navbar-expand-md navbar-light">
         <Link className="navbar-brand" to="/user">
-            Welcome to Book Reader
+            Benvenuti in Liber
         </Link>
         <button
           className="navbar-toggler navbar-toggler-right"
@@ -42,8 +42,8 @@ class UserHeader extends Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/userLibrary">
-                Library
+              <Link className="nav-link" to="/aboutUs">
+                Chi siamo
               </Link>
             </li>
           </ul>
@@ -53,13 +53,13 @@ class UserHeader extends Component {
             <li className="nav-item">
             <img
                       src="https://cdn2.iconfinder.com/data/icons/rcons-user/32/male-shadow-circle-512.png"
-                      alt="Profile Picture"
+                      alt="Profile"
                       className="img-prof"
                     />
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/personalArea">
-                  Hi {String(this.props.user.Nome)}
+                  Ciao, {String(this.props.user.Nome)}
                 </Link>
               </li>
               <li className="nav-item">

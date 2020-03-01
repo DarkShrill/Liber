@@ -18,12 +18,22 @@
 
         private function check_expired_token() {
 
-            $query = "DELETE FROM tokens WHERE Token IN ( SELECT Token FROM Tokens WHERE Scadenza <= '";
+            $query = "SELECT Token FROM tokens WHERE Scadenza <= '";
+            $query_2 = "DELETE FROM tokens WHERE Token IN (";
 
             while (true) {
 
-                $time_expire = date("Y-d-m h:i:s");
-                $stmt = $this->database->prepare($query.$time_expire."')");
+                $time_expire = date("Y-m-d h:i:s");
+                echo $query.$time_expire."')";
+                $stmt = $this->database->prepare($query.$time_expire."'");
+                $stmt->execute();
+
+                while($row = $stmt->fetchColumn()) {
+                   $query_2 .= "'$row',"; 
+                }
+
+                $query_2 = substr($query_2, 0, -1);
+                $stmt = $this->database->prepare($query_2.")");
                 $stmt->execute();
 
                 sleep($this->timer);

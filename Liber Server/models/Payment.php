@@ -10,6 +10,18 @@ class Payment {
         $this->conn = $db;
     }
 
+    public function has_book() {
+        $query = "SELECT ISBNLibro FROM librerie WHERE ISBN='$this->book_ID'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     public function pay() {
 
         if($this->add_to_payment()) {
@@ -39,7 +51,7 @@ class Payment {
 
     private function add_to_payment() {
 
-        $date = date("Y-d-m h:i:s");
+        $date = date("Y-m-d h:i:s");
 
         $query_1 = "SELECT NumeroCarta FROM utenti WHERE ID = $this->user_ID ";
 

@@ -51,6 +51,7 @@ class Library {
                 $found = true;
             }
 
+            $query .= " ORDER BY Titolo ASC ";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
 
@@ -141,7 +142,7 @@ class Library {
 
             $query_1 = "SELECT Genere, COUNT(Genere) AS Frequenza FROM librerie JOIN libri ";
             $query_1 .= "ON librerie.ISBNLibro = libri.ISBN ";
-            $query_1 .= "WHERE librerie.IDUtente = $this->IDUtente " . ($clause ? " AND librerie.ISBNLibro NOT IN " . $clause : "");
+            $query_1 .= "WHERE librerie.IDUtente = $this->IDUtente ";
             $query_1 .= "GROUP BY Genere ORDER BY Frequenza DESC LIMIT 0,3";
 
             $query_2 = "SELECT Genere FROM (" . $query_1 .") AS Generi";
@@ -164,6 +165,7 @@ class Library {
             }
 
             $query_3 = "SELECT * FROM Libri WHERE Genere IN (" . $types_list . ") ";
+            $query_3 .= ($clause ? "AND ISBN NOT IN " . $clause : " ");
             $query_3 .= "ORDER BY FIELD(Genere, " . $types_list. ")";
 
             $stmt = $this->conn->prepare($query_3);
@@ -240,16 +242,34 @@ class Library {
             for ($i=0; $i<5; $i++) {
 
                 if ($i<2) {
-
-                    array_push($suggested_books_list, array_splice($type_3, rand(0, count($type_3)-1), 1)[0]);
+                    try{
+                        $rnd = rand(0, count($type_3)-1);
+                        if(isset($type_3[$rnd])){
+                            array_push($suggested_books_list, array_splice($type_3, rand(0, count($type_3)-1), 1)[0]);
+                        }
+                    } catch(Exception $err) {
+                    }
                 }
 
                 if ($i<3) {
-
-                    array_push($suggested_books_list, array_splice($type_2, rand(0, count($type_2)-1), 1)[0]);                    
+                    try{
+                        $rnd = rand(0, count($type_2)-1);
+                        if(isset($type_2[$rnd])){
+                            array_push($suggested_books_list, array_splice($type_2, rand(0, count($type_2)-1), 1)[0]);
+                        }
+                        
+                    } catch(Exception $err1) {
+                    }
                 }
 
-                array_push($suggested_books_list, array_splice($type_1, rand(0, count($type_1)-1), 1)[0]);                 
+                try{
+                    $rnd = rand(0, count($type_1)-1);
+                    if(isset($type_1[$rnd])){
+                        array_push($suggested_books_list, array_splice($type_1, rand(0, count($type_1)-1), 1)[0]);
+                    }
+                } catch(Exception $err2) {
+                }
+                                 
             }
 
             return $suggested_books_list;

@@ -60,7 +60,7 @@ class Login {
             
         } while($good_token !== false);
         
-        $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
+        $time_expire = date("Y-m-d h:i:s", strtotime("+ 22 minutes"));
         $query = "INSERT INTO tokens (`Token`, `ID_utente`, `Scadenza`) VALUES ('$tmp_token', $id, '$time_expire')";
         
         $stmt = $this->conn->prepare($query);
@@ -75,7 +75,7 @@ class Login {
         $stmt->execute();
 
         $res = $stmt->rowCount();
-        if($res == 0) {
+        if($res > 0) {
             return true;
         } else {
             return false;
@@ -83,7 +83,7 @@ class Login {
     }
 
     public function refresh() {
-        $time_expire = date("Y-d-m h:i:s", strtotime("+ 22 minutes"));
+        $time_expire = date("Y-m-d h:i:s", strtotime("+ 22 minutes"));
         
         $query = "UPDATE tokens SET Scadenza = '$time_expire' WHERE Token = '$this->token'";
 

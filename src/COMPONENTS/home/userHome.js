@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../CSS/home/home.css";
-import UserNav from "../mainLayout/header/userHeader";
+import { Redirect } from "react-router-dom";
 
 /**
  * Applicationshome page component
@@ -12,32 +12,22 @@ class Index extends Component {
         this.state = {
           user_name: {}
         };
-        console.log("UTENTE : ");
-        console.log(this.props.user);
+
+        if(!this.props.token) {
+          this.props.history.push("/library");
+        }
       }
       componentDidMount() {
-        // this.props.getUser();
-        console.log(this.props.user);
         this.setState(() => ({
           user: this.props.user,
           user_name: this.props.user.Nome
         }));
-        //this.forceUpdate();
-        
       }
-
-      componentWillUpdate(){
-        console.log("AAAAA");
-        console.log(this.state.user)
-        console.log(this.state.user_name)
-        console.log(this.props.user)
-        console.log("NAME");
-        console.log(String(this.props.user.name))
-      }
-
 
   render() {
     return (
+      <Redirect to="/userLibrary" />
+      /*
       <React.Fragment>
         <UserNav 
           user={this.props.user}/>
@@ -47,7 +37,7 @@ class Index extends Component {
               <div className="row">
                 <div className="col-lg-12">
                   <div className="jumbotron">
-                    <h1 className="display-4">Hi <strong>{String(this.state.user_name)}</strong> ,Welcome to Book Reader</h1>
+                    <h1 className="display-4">Hi <strong>{String(this.state.user_name)}</strong> ,Benvenuti in Liber</h1>
                     <p className="lead">
                       A library application that allows you to find and buy
                       your favorite books. We are here to help.
@@ -60,6 +50,7 @@ class Index extends Component {
           </div>
         </div>
       </React.Fragment>
+      */
     );
   }
 }

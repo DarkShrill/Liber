@@ -12,7 +12,7 @@ const errorHandler = error => {
 
 // base url
  //export const baseURL = "http://localhost:2222";
-  export const baseURL = "http://localhost:80/Liber/Liber%20Server";
+  export const baseURL = "https://localhost/Liber/Liber%20Server";
 //export const baseURL = "localhost/dashboard/"
 const axiosConfig = {
   "Content-Type": "application/json",
@@ -26,14 +26,15 @@ export const registerUser = userData => {
    * @argument userData
    * @returns API response
    */
-  const url = `${baseURL}/auth/register`;
+  const url = `${baseURL}/user/create.php`;
   const payload = {
-    first_name: userData.first_name,
-    last_name: userData.last_name,
-    email: userData.Email,
-    password: userData.password,
+    Nome: userData.first_name,
+    Cognome: userData.last_name,
+    Email: userData.email,
+    Password: userData.password,
     confirm_password: userData.confirm_password
   };
+
   return axios
     .post(url, payload, axiosConfig)
     .then(res => {
@@ -43,6 +44,31 @@ export const registerUser = userData => {
       return { status: "failure", error: error.response.data };
     });
 };
+
+export const insertCard = cardData => {
+  /**
+   * Calls register user api endpoint
+   * @argument userData
+   * @returns API response
+   */
+  const url = `${baseURL}/user/add_card.php`;
+  const payload = {
+    token: cardData.token,
+    ID: cardData.ID,
+    NumeroCarta: cardData.NumeroCarta
+  };
+
+  console.log(payload);
+  return axios
+    .post(url, payload, axiosConfig)
+    .then(res => {
+      return { status: "success", cardInserted: cardData.NumeroCarta };
+    })
+    .catch(error => {
+      return { status: "failure", error: error.response.data };
+    });
+};
+
 
 export const loginUser = userData => {
   /**
@@ -71,6 +97,24 @@ export const loginUser = userData => {
     });
 };
 
+export const loginRefresh = userData => {
+  const url = `${baseURL}/login/refresh.php`;
+  const payload = {
+    token: userData.token,
+  };
+  return axios
+    .post(url,payload,axiosConfig)
+    .then(res => {
+      return {
+        status: "success"
+      };
+    })
+    .catch(error => {
+      console.log(error);
+      return { status: "failure", error: error.response.data };
+    });
+};
+
 export const updateUser = data => {
   const url = `${baseURL}/user/update.php`;
   const payload = {
@@ -79,7 +123,7 @@ export const updateUser = data => {
     Nome:data.user.Nome,
     Cognome:data.user.Cognome,
     Email:data.user.Email,
-    Password:data.password,
+    Password: data.password ? data.password : data.user.Password,
   };
   console.log("UPLOAD USER : ");
   console.log(payload);
@@ -119,6 +163,7 @@ export const logoutUser = accessToken => {
    * @returns API response
    */
   const url = `${baseURL}/login/logout.php`;
+  console.log(accessToken);
   const payload = {
     token : accessToken,
   };
@@ -129,6 +174,7 @@ export const logoutUser = accessToken => {
       return { status: true, loggedOut: true };
     })
     .catch(error => {
+      console.log(error.response);
       return { status: "failure", error: error.response.data };
     });
 };
@@ -150,8 +196,13 @@ export const fetchBuy = (data) => {
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
-      return { status: "failure", error: 43/*error.response.data */};
+      console.log(error);
+      if(error.toString().includes("401")) {
+        return { status: "failure", error: "401"/*error.data.outcome*/};
+      } else {
+        return { status: "failure", error: "400"/*error.data.outcome*/};
+      }
+      
     });
 }
 
@@ -170,6 +221,34 @@ export const fetchBooks = () => {
       return {
         status: "success",
         books: res.data.libri
+      };
+    })
+    .catch(error => {
+      console.log("ERROR " + error);
+      return { status: "failure", error: 402/*error.response.data */};
+    });
+};
+
+export const fetchSuggestedBooks = (data) => {
+  /**
+   * Fetches all books
+   * @argument (page, limit)
+   * @returns API response
+   */
+  const url = `${baseURL}/library/suggested_books.php`;
+  var payload = {
+    token: data.token,
+    IDUtente: data.userId,
+    previous_ISBN_list: data.previous_ISBN_list
+  }
+  return axios
+    .post(url, payload, axiosConfig)
+    .then(res => {
+      console.log("BOOK");
+      console.log(res);
+      return {
+        status: "success",
+        books: res.data
       };
     })
     .catch(error => {

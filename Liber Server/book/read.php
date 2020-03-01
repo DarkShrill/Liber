@@ -18,7 +18,6 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-
 if(!$data) {
     http_response_code(401);
     echo json_encode(array("outcome" => "missing data"));

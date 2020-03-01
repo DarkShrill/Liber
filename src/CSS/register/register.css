@@ -8,11 +8,11 @@
   }
   
   hr {
-    border-color: aliceblue !important;
+    border-color: aliceblue;
   }
   
   .navbar {
-    background: #847996 !important;
+    background-color: #FBD995 !important;
   }
   
   .header {
@@ -22,7 +22,8 @@
   }
   
   .jumbotron {
-    background: #586f7c !important;
+    color: black !important;
+    background: #E7B756 !important;
     margin-top: 150px;
   }
   
@@ -32,9 +33,6 @@
   
   .modal {
     color: black;
-  }
-  tr:hover {
-    background-color: #847996 !important;
   }
   .login-form{
     margin-top: 200px;
@@ -51,4 +49,9 @@
 .no-account, .member-already {
     margin-top: 15px;
 }
-    
+
+@media only screen and (max-width: 1025px) {
+  .register-left {
+    margin-top: 90px !important;
+  }
+}
