@@ -80,7 +80,7 @@ class Library extends Component  {
         <div className="base-text">{books[i].Titolo}</div>
         <div className="base-text">{books[i].Autore}</div>
         <div className="base-text">{Number(books[i].Prezzo).toFixed(2) + " €"}</div>
-        <Button onClick={() => {this.buyButtonHandler(books[i].ISBN)}} className="buyButton" variant="success">Acquista</Button>
+        <Button onClick={() => {this.props.history.push("/login")}} className="buyButton" variant="success">Acquista</Button>
       </div>);
     }
 

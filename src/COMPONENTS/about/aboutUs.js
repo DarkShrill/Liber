@@ -26,7 +26,7 @@ class AboutUs extends Component {
                     <hr className="my-4" />
                     <p></p>
                     <p className="lead">
-                       Siamo due studenti dell'università di Informatica di Camrino.<br/>
+                       Siamo due studenti dell'università di Informatica di Camerino.<br/>
                        Abbiamo realizzato quest'applicazione per il corso di
                             <strong> Progettazione di Applicazioni Web e Mobili</strong>.
                     </p>
