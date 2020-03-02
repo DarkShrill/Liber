@@ -5,11 +5,6 @@ import axios from "axios";
  * Function to handle network calls
  */
 
-const errorHandler = error => {
-  const err = error.response ? error.response.data : { Message: error.message };
-  return { status: "failure", error: err };
-};
-
 // base url
  //export const baseURL = "http://localhost:2222";
   export const baseURL = "https://localhost/Liber/Liber%20Server";
