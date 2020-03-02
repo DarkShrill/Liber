@@ -11,8 +11,6 @@ class UserHeader extends Component {
     this.state = {
       user: this.props.user
     };
-    console.log("STO PER PRINTAE")
-    console.log(this.props.user)
   }
   render() {
     return (

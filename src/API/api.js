@@ -47,8 +47,8 @@ export const registerUser = userData => {
 
 export const insertCard = cardData => {
   /**
-   * Calls register user api endpoint
-   * @argument userData
+   * Calls add credit card api endpoint
+   * @argument cardData
    * @returns API response
    */
   const url = `${baseURL}/user/add_card.php`;
@@ -58,7 +58,6 @@ export const insertCard = cardData => {
     NumeroCarta: cardData.NumeroCarta
   };
 
-  console.log(payload);
   return axios
     .post(url, payload, axiosConfig)
     .then(res => {
@@ -84,7 +83,6 @@ export const loginUser = userData => {
   return axios
     .post(url,payload,axiosConfig)
     .then(res => {
-      console.log(res.data.token);
       return {
         status: "success",
         accessToken: res.data.token,
@@ -92,7 +90,6 @@ export const loginUser = userData => {
       };
     })
     .catch(error => {
-      console.log(error);
       return { status: "failure", error: error.response.data };
     });
 };
@@ -110,7 +107,6 @@ export const loginRefresh = userData => {
       };
     })
     .catch(error => {
-      console.log(error);
       return { status: "failure", error: error.response.data };
     });
 };
@@ -125,8 +121,6 @@ export const updateUser = data => {
     Email:data.user.Email,
     Password: data.password ? data.password : data.user.Password,
   };
-  console.log("UPLOAD USER : ");
-  console.log(payload);
   return axios.post(url,payload, axiosConfig).then(res => {
     return { status : "success"
     };
@@ -149,8 +143,6 @@ export const fetchUser = userData => {
   };
 
   return axios.post(url,payload, axiosConfig).then(res => {
-    console.log("PAYLOAD = " + payload.email);
-    console.log(res);
     return { user: res.data.usr
     };
   });
@@ -163,18 +155,15 @@ export const logoutUser = accessToken => {
    * @returns API response
    */
   const url = `${baseURL}/login/logout.php`;
-  console.log(accessToken);
   const payload = {
     token : accessToken,
   };
   return axios
     .post(url,payload,axiosConfig)
     .then(res => {
-      console.log("========>", res);
       return { status: true, loggedOut: true };
     })
     .catch(error => {
-      console.log(error.response);
       return { status: "failure", error: error.response.data };
     });
 };
@@ -186,8 +175,6 @@ export const fetchBuy = (data) => {
     IDUtente: data.IDUtente,
     ISBNLibro: data.ISBNLibro,
   }
-  console.log("BUY");
-  console.log(payload);
   return axios
     .post(url, payload ,axiosConfig)
     .then(res => {
@@ -196,7 +183,6 @@ export const fetchBuy = (data) => {
       };
     })
     .catch(error => {
-      console.log(error);
       if(error.toString().includes("401")) {
         return { status: "failure", error: "401"/*error.data.outcome*/};
       } else {
@@ -209,30 +195,26 @@ export const fetchBuy = (data) => {
 export const fetchBooks = () => {
   /**
    * Fetches all books
-   * @argument (page, limit)
    * @returns API response
    */
   const url = `${baseURL}/book/read.php`;
   return axios
     .post(url, axiosConfig)
     .then(res => {
-      console.log("BOOK");
-      console.log(res);
       return {
         status: "success",
         books: res.data.libri
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 };
 
 export const fetchSuggestedBooks = (data) => {
   /**
-   * Fetches all books
-   * @argument (page, limit)
+   * Fetches suggested books for the user
+   * @argument (data)
    * @returns API response
    */
   const url = `${baseURL}/library/suggested_books.php`;
@@ -244,15 +226,12 @@ export const fetchSuggestedBooks = (data) => {
   return axios
     .post(url, payload, axiosConfig)
     .then(res => {
-      console.log("BOOK");
-      console.log(res);
       return {
         status: "success",
         books: res.data
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 };
@@ -265,15 +244,12 @@ export const fetchFilterGenere = () => {
   return axios
     .post(url,payload, axiosConfig)
     .then(res => {
-      console.log("FILTER GENERE");
-      console.log(res);
       return {
         status: "success",
         filter: res.data
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 }
@@ -292,7 +268,6 @@ export const fetchFilterAutore = () => {
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 }
@@ -311,30 +286,9 @@ export const fetchFilterCasaEditrice= () => {
       };
     })
     .catch(error => {
-      console.log("ERROR " + error);
       return { status: "failure", error: 402/*error.response.data */};
     });
 }
-
-export const borrowingHistory = accessToken => {
-  /**
-   * Gets user's borrowing history
-   */
-  const url = `${baseURL}/users/books`;
-  const axiosConfigAuth = {
-    headers: {
-      "Content-Type": "application/json",
-      AccessControlAllowOrigin: "*",
-      Authorization: "Bearer " + accessToken
-    }
-  };
-  return axios
-    .get(url, axiosConfigAuth)
-    .then(res => {
-      return { status: "success", history: res.data.borrowHistory };
-    })
-    .catch(errorHandler);
-};
 
 export const fetchOwnBook = userData =>{
 
@@ -344,44 +298,16 @@ export const fetchOwnBook = userData =>{
       token: userData.token,
       IDUtente:userData.ID,
     };
-    console.log("OWN BOOK payload");
-    console.log(payload);
     return axios
       .post(url,payload, axiosConfig)
       .then(res => {
-        console.log("OWN BOOK ");
-        console.log(res);
         return {
           status: "success",
           ownBook: res.data.libri
         };
       })
       .catch(error => {
-        console.log("ERROR " + error);
         return { status: "failure", error: 402/*error.response.data */};
       });
 
 }
-
-
-// export const fetchBooks = () => {
-//   /**
-//    * Fetches all books
-//    * @argument
-//    * @returns API response
-//    */
-//   const url = `${baseURL}/books`;
-//   return axios
-//     .get(url, axiosConfig)
-//     .then(res => {
-//       return {
-//         status: "success",
-//         books: res.data.Books,
-//         totalPages: res.data.totalPages,
-//         currentPage: res.data.currentPage
-//       };
-//     })
-//     .catch(error => {
-//       return { status: "failure", error: error.response.data };
-//     });
-// };

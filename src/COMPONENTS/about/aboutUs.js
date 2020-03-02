@@ -10,8 +10,6 @@ import IndexNavLogged from  "../mainLayout/header/loggedHeader";
 class AboutUs extends Component {
   constructor(props){
     super(props);
-
-    console.log(this.props);
   }
 
   render() {

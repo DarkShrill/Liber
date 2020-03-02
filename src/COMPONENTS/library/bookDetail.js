@@ -18,7 +18,6 @@ class BookDetail extends Component {
           this.props.history.push("/creditCard");
         }
 
-        console.log(this.state.tempBook);
         if(this.state.tempBook === false) {
           this.props.history.push("/library");
         }

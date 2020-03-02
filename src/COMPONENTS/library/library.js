@@ -37,7 +37,6 @@ class Library extends Component  {
 
   handleChange = event => {
     this.setState({ filter: event.target.value });
-    console.log("------------------ FORCE UPDATE");
   };
 
   casaEditriceFilterClicked = data => {

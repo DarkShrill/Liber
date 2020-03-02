@@ -30,7 +30,6 @@ class PersonalArea extends Component {
         };
 
         if(!this.props.token) {
-          console.log("NESSUN TOKEN");
           this.props.history.push("/library");
         }
 
@@ -42,7 +41,6 @@ class PersonalArea extends Component {
       componentDidMount() {
         // this.props.getUser();
         this.props.initFilter();
-        console.log("PERSONAL AREA");
         this.setState(() => ({
           user: this.props.user
           //ownBook:this.props.ownBook

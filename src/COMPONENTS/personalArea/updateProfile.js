@@ -33,7 +33,6 @@ class updateProfile extends Component {
         };
 
         if(!this.props.token) {
-          console.log("NESSUN TOKEN");
           this.props.history.push("/library");
         }
 

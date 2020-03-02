@@ -13,8 +13,6 @@ class CreditCard extends Component {
       cardNumber : ""
     };
 
-    console.log("CREDIT CARD");
-    console.log(this.props.user);
     if(this.props.user.NumeroCarta) {
         this.props.history.push("/userLibrary");
     }
@@ -27,8 +25,6 @@ class CreditCard extends Component {
     event.preventDefault();
     this.props.toggleLoading();
 
-    console.log(this.state);
-
     var data = {
         token: this.props.token,
         ID: this.props.user.ID,
@@ -40,18 +36,12 @@ class CreditCard extends Component {
 
   handleChange = event => {
 
-    console.log(event.target);
-    console.log(event.target.value);
-
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
   render() {
-
-    console.log("UTENTE IN CREDIT CARD");
-    console.log(this.props.user);
 
     if(this.props.user.NumeroCarta != null) {
         return <Redirect to="/userLibrary" />  

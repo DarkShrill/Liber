@@ -22,21 +22,13 @@ class UserLibrary extends Component {
           needsCreditCard: false
         };
 
-        console.log("NEEDS CREDIT CARD " + this.state.needsCreditCard);
-
         if(this.state.needsCreditCard) {
           this.props.history.push("/creditCard");
         }
 
         if(!this.props.token) {
-          console.log("NESSUN TOKEN");
           this.props.history.push("/library");
         }
-
-        console.log("UTENTE PERSONAL AREA user lib: ");
-        console.log(this.props.user);
-        console.log(this.state.user);
-
 
       }
       componentDidMount() {
@@ -139,9 +131,6 @@ class UserLibrary extends Component {
     }
 
     elements = this.displayBooks(books);
-
-    console.log("SUGGETED BOOKS");
-    console.log(this.props.suggestedBooks);
 
       return (
         <React.Fragment>

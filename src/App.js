@@ -146,8 +146,6 @@ class App extends Component {
           user: usr
         }));
 
-        console.log(this.state.user);
-
         swal("Carta inserita con successo",{timer: 2500});
       } else {
         swal("Si è verificato un problema! Per favore, riprova",{timer: 2500});
@@ -237,7 +235,6 @@ class App extends Component {
      */
     if (!this.state.scrolling) this.toggleLoading();
     fetchBooks().then(res => {
-      console.log(res);
       res.status === "success"
         ? this.setState(() => ({
             library: [...res.books],
@@ -264,7 +261,6 @@ class App extends Component {
     }
     for(i in this.state.suggestedBooks) {
       if(tmp.indexOf(this.state.suggestedBooks[i].ISBN) >= 0) {
-        console.log("DUPLICATE: " + this.state.suggestedBooks[i].ISBN);
       }
       tmp[c] = this.state.suggestedBooks[i].ISBN;
       c++;
@@ -355,7 +351,6 @@ class App extends Component {
     var _self = this;
     fetchBuy({token: accessToken,IDUtente:this.state.user.ID,ISBNLibro:data.ISBN}).then(res => {
 
-      console.log(res);
       if(res.status === "success"){
         swal("Grazie per il tuo acquisto" , { buttons: false, timer: 1500 });
         _self.getSuggestedBooks();
